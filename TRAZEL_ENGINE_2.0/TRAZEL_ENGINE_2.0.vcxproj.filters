@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="TZE">
+      <UniqueIdentifier>{1824880B-842D-887C-0DA9-9E7C79B1937C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\TZE.h" />
+    <ClInclude Include="src\TZE\App.h">
+      <Filter>TZE</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TZE\Core.h">
+      <Filter>TZE</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TZE\EntryPoint.h">
+      <Filter>TZE</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TZE\pch.h">
+      <Filter>TZE</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\TZE\App.cpp">
+      <Filter>TZE</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TZE\pch.cpp">
+      <Filter>TZE</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
