@@ -5,6 +5,8 @@
 	extern tze::App* tze::createApp();
 	int main(int argc, char** argv)
 	{
+		tze::Log::init();
+
 		tze::App* App = tze::createApp();
 		App->run();
 		delete App;

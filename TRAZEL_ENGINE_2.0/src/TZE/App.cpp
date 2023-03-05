@@ -4,6 +4,7 @@
 namespace tze {
 	App::App()
 	{
+		_layers.push_back(new Window);
 	}
 
 	App::~App()
@@ -14,6 +15,19 @@ namespace tze {
 
 	void App::run()
 	{
-		while (true);
+		bool* closingFlag = ((Window*)_layers[WINDOW_LAYER_INDEX])->closeWindowFlag();
+
+		while (!*closingFlag)
+		{
+			for (Layer* layer : this->_layers)
+			{
+				layer->run();
+			}
+
+			// majorLay->onUpdate();
+			//imguiLay->onUpdate();
+		}
+
+		TZE_ENGINE_INFO("Successfully closed the window");
 	}
 }

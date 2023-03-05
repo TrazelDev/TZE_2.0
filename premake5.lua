@@ -26,10 +26,15 @@ project "TRAZEL_ENGINE_2.0"
     }
 
     includedirs {
-        "%{prj.name}/src",
+        "%{prj.name}/src/TZE",
+        "third_party_extentions/glfw/include",
+        "third_party_extentions/spdlog/include/spdlog",
+        "third_party_extentions/spdlog/include",
     }
 
     links {
+        "third_party_extentions/glfw/lib-vc2022/glfw3.lib"
+        -- "third_party_extentions/glfw/lib-vc2022/glfw3.dll"
     }
 
     filter "system:windows"
@@ -44,6 +49,7 @@ project "TRAZEL_ENGINE_2.0"
         }
 
         postbuildcommands {
+            ("{COPY} third_party_extentions/glfw/lib-vc2022/glfw3.lib bin/" .. output_dir .. "/Client"),
             ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. output_dir .. "/Client")
         }
 
@@ -76,6 +82,9 @@ project "Client"
 
     includedirs {
         "TRAZEL_ENGINE_2.0/src",
+        "third_party_extentions/glfw/include",
+        "third_party_extentions/spdlog/include/spdlog",
+        "third_party_extentions/spdlog/include",
     }
 
     links {

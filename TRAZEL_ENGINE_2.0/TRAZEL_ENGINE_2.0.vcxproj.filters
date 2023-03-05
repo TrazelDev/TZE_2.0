@@ -4,6 +4,15 @@
     <Filter Include="TZE">
       <UniqueIdentifier>{1824880B-842D-887C-0DA9-9E7C79B1937C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TZE\layer">
+      <UniqueIdentifier>{04E3046F-704D-B9E5-B98B-6A8B2535973A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TZE\layer\window">
+      <UniqueIdentifier>{8BF77F32-77F0-9E84-A022-84098C7A7E90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TZE\loging">
+      <UniqueIdentifier>{A7CC9450-9384-D69D-FC8B-AFF9E862718E}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\TZE.h" />
@@ -16,6 +25,15 @@
     <ClInclude Include="src\TZE\EntryPoint.h">
       <Filter>TZE</Filter>
     </ClInclude>
+    <ClInclude Include="src\TZE\layer\Layer.h">
+      <Filter>TZE\layer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TZE\layer\window\Window.h">
+      <Filter>TZE\layer\window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TZE\loging\Log.h">
+      <Filter>TZE\loging</Filter>
+    </ClInclude>
     <ClInclude Include="src\TZE\pch.h">
       <Filter>TZE</Filter>
     </ClInclude>
@@ -23,6 +41,12 @@
   <ItemGroup>
     <ClCompile Include="src\TZE\App.cpp">
       <Filter>TZE</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TZE\layer\window\Window.cpp">
+      <Filter>TZE\layer\window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TZE\loging\Log.cpp">
+      <Filter>TZE\loging</Filter>
     </ClCompile>
     <ClCompile Include="src\TZE\pch.cpp">
       <Filter>TZE</Filter>
