@@ -30,11 +30,12 @@ project "TRAZEL_ENGINE_2.0"
         "third_party_extentions/glfw/include",
         "third_party_extentions/spdlog/include/spdlog",
         "third_party_extentions/spdlog/include",
+        "third_party_extentions/vulkan_sdk/Include",
     }
 
     links {
-        "third_party_extentions/glfw/lib-vc2022/glfw3.lib"
-        -- "third_party_extentions/glfw/lib-vc2022/glfw3.dll"
+        "third_party_extentions/glfw/lib-vc2022/glfw3.lib",
+        "third_party_extentions/vulkan_sdk/Lib/vulkan-1.lib"
     }
 
     filter "system:windows"
@@ -49,6 +50,7 @@ project "TRAZEL_ENGINE_2.0"
         }
 
         postbuildcommands {
+            -- ("{COPY} third_party_extentions/ bin/" .. output_dir .. "/Client"),
             ("{COPY} third_party_extentions/glfw/lib-vc2022/glfw3.lib bin/" .. output_dir .. "/Client"),
             ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. output_dir .. "/Client")
         }
@@ -62,7 +64,7 @@ project "TRAZEL_ENGINE_2.0"
         optimize "On"
 
     filter "configurations:Client"
-        defines "Client_MODE"
+        defines "CLIENT_MODE"
         optimize "On"
 
 
@@ -111,5 +113,5 @@ project "Client"
 
     filter "configurations:Client"
         kind "WindowedApp"
-        defines "Client_MODE"
+        defines "CLIENT_MODE"
         symbols "On"

@@ -25,7 +25,7 @@ namespace tze {
 	};
 }
 
-#ifndef Client_MODE
+#ifndef CLIENT_MODE
 
 #define TZE_ENGINE_ERR(...)      ::tze::Log::getGame_engineLogger()->error(__VA_ARGS__)
 #define TZE_ENGINE_WARN(...)     ::tze::Log::getGame_engineLogger()->warn(__VA_ARGS__)

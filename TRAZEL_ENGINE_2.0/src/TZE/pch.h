@@ -26,6 +26,27 @@
 #include "loging/Log.h"
 
 // window libraries:
+#define GLFW_INCLUDE_VULKAN
+#define VK_VERSION_1_0
 #include <windows.h>
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>
+
+// Vulkan includes:
+#include <vulkan/vulkan.hpp>
+
+// A way to make only debugging features:
+#ifndef CLIENT_MODE
+	#define DEBUG_CMD(x) x
+#else
+	#define DEBUG_CMD(x)
+#endif
+
+// A way for me to tell for things that are plain data and I have the option to toggle here if I want to see it or not:
+#define WANT_TO_SHOW_DATA
+
+#ifdef WANT_TO_SHOW_DATA
+#define SHOW_DATA(x) x
+#else
+#define SHOW_DATA(x)
+#endif

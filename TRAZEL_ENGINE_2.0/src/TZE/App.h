@@ -1,6 +1,5 @@
 #pragma once
 #include "Core.h"
-#include "Layer/window/Window.h"
 
 #define WINDOW_LAYER_INDEX 0
 
@@ -20,7 +19,6 @@ namespace tze
 
 	// this will be defined in the client 
 	App* createApp();
-
 
 }
 

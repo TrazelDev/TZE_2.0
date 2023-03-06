@@ -115,7 +115,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>TZE_PLATFORM_WINDOWS;Client_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TZE_PLATFORM_WINDOWS;CLIENT_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\TRAZEL_ENGINE_2.0\src;..\third_party_extentions\glfw\include;..\third_party_extentions\spdlog\include\spdlog;..\third_party_extentions\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -134,6 +134,9 @@
     <ProjectReference Include="..\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.vcxproj">
       <Project>{9B2E240D-0745-22A3-50BC-ADC4BC11F32A}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="comments.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

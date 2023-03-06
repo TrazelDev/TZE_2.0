@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>TZE_PLATFORM_WINDOWS;TZE_BUILD_DLL;DEBUG_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src\TZE;..\third_party_extentions\glfw\include;..\third_party_extentions\spdlog\include\spdlog;..\third_party_extentions\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src\TZE;..\third_party_extentions\glfw\include;..\third_party_extentions\spdlog\include\spdlog;..\third_party_extentions\spdlog\include;..\third_party_extentions\vulkan_sdk\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -89,7 +89,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>..\third_party_extentions\glfw\lib-vc2022\glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\third_party_extentions\glfw\lib-vc2022\glfw3.lib;..\third_party_extentions\vulkan_sdk\Lib\vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\bin\Debug-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
@@ -104,7 +104,7 @@ IF EXIST ..\bin\Debug-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll\ (x
       <WarningLevel>Level3</WarningLevel>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PreprocessorDefinitions>TZE_PLATFORM_WINDOWS;TZE_BUILD_DLL;REALSE_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src\TZE;..\third_party_extentions\glfw\include;..\third_party_extentions\spdlog\include\spdlog;..\third_party_extentions\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src\TZE;..\third_party_extentions\glfw\include;..\third_party_extentions\spdlog\include\spdlog;..\third_party_extentions\spdlog\include;..\third_party_extentions\vulkan_sdk\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -117,7 +117,7 @@ IF EXIST ..\bin\Debug-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll\ (x
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>..\third_party_extentions\glfw\lib-vc2022\glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\third_party_extentions\glfw\lib-vc2022\glfw3.lib;..\third_party_extentions\vulkan_sdk\Lib\vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\bin\Release-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
@@ -131,8 +131,8 @@ IF EXIST ..\bin\Release-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll\ 
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <PreprocessorDefinitions>TZE_PLATFORM_WINDOWS;TZE_BUILD_DLL;Client_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src\TZE;..\third_party_extentions\glfw\include;..\third_party_extentions\spdlog\include\spdlog;..\third_party_extentions\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TZE_PLATFORM_WINDOWS;TZE_BUILD_DLL;CLIENT_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src\TZE;..\third_party_extentions\glfw\include;..\third_party_extentions\spdlog\include\spdlog;..\third_party_extentions\spdlog\include;..\third_party_extentions\vulkan_sdk\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -145,7 +145,7 @@ IF EXIST ..\bin\Release-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll\ 
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>..\third_party_extentions\glfw\lib-vc2022\glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\third_party_extentions\glfw\lib-vc2022\glfw3.lib;..\third_party_extentions\vulkan_sdk\Lib\vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\bin\Client-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
@@ -158,18 +158,22 @@ IF EXIST ..\bin\Client-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll\ (
     <ClInclude Include="src\TZE\App.h" />
     <ClInclude Include="src\TZE\Core.h" />
     <ClInclude Include="src\TZE\EntryPoint.h" />
-    <ClInclude Include="src\TZE\layer\Layer.h" />
-    <ClInclude Include="src\TZE\layer\window\Window.h" />
+    <ClInclude Include="src\TZE\layers\Layer.h" />
+    <ClInclude Include="src\TZE\layers\Vulkan\Instance.h" />
+    <ClInclude Include="src\TZE\layers\Window\Window.h" />
     <ClInclude Include="src\TZE\loging\Log.h" />
     <ClInclude Include="src\TZE\pch.h" />
+    <ClInclude Include="src\TZE\layers\Vulkan\vk_logging\vkLogging.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TZE\App.cpp" />
-    <ClCompile Include="src\TZE\layer\window\Window.cpp" />
+    <ClCompile Include="src\TZE\layers\Vulkan\Instance.cpp" />
+    <ClCompile Include="src\TZE\layers\Window\Window.cpp" />
     <ClCompile Include="src\TZE\loging\Log.cpp" />
     <ClCompile Include="src\TZE\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\TZE\layers\Vulkan\vk_logging\vkLogging.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

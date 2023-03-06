@@ -1,7 +1,7 @@
 #pragma once
 
 #ifdef TZE_PLATFORM_WINDOWS
-	#ifndef Client_MODE
+	#ifndef CLIENT_MODE
 	extern tze::App* tze::createApp();
 	int main(int argc, char** argv)
 	{
@@ -12,14 +12,12 @@
 		delete App;
 	}
 	#else	
-	extern tze::app* tze::createApp();
+extern tze::App* tze::createApp();
 	int WinMain(HINSTANCE inst, HINSTANCE prev_inst, LPSTR arg, int show_cmd)
 	{
-		tze::app* App = tze::createApp();
+		tze::App* App = tze::createApp();
 		App->run();
 		delete App;
-	
-		return 0;
 	}
 	#endif
 #endif

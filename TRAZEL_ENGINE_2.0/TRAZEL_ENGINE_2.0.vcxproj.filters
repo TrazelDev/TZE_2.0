@@ -4,11 +4,14 @@
     <Filter Include="TZE">
       <UniqueIdentifier>{1824880B-842D-887C-0DA9-9E7C79B1937C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TZE\layer">
-      <UniqueIdentifier>{04E3046F-704D-B9E5-B98B-6A8B2535973A}</UniqueIdentifier>
+    <Filter Include="TZE\layers">
+      <UniqueIdentifier>{F743A14F-E3FB-E29C-4C03-BCF838DA7D8D}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TZE\layer\window">
-      <UniqueIdentifier>{8BF77F32-77F0-9E84-A022-84098C7A7E90}</UniqueIdentifier>
+    <Filter Include="TZE\layers\Vulkan">
+      <UniqueIdentifier>{9755CB71-036C-C907-4CE3-5429B8389A8F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TZE\layers\Window">
+      <UniqueIdentifier>{FE544873-6A6B-4609-B3E2-D12A1F381791}</UniqueIdentifier>
     </Filter>
     <Filter Include="TZE\loging">
       <UniqueIdentifier>{A7CC9450-9384-D69D-FC8B-AFF9E862718E}</UniqueIdentifier>
@@ -25,11 +28,14 @@
     <ClInclude Include="src\TZE\EntryPoint.h">
       <Filter>TZE</Filter>
     </ClInclude>
-    <ClInclude Include="src\TZE\layer\Layer.h">
-      <Filter>TZE\layer</Filter>
+    <ClInclude Include="src\TZE\layers\Layer.h">
+      <Filter>TZE\layers</Filter>
     </ClInclude>
-    <ClInclude Include="src\TZE\layer\window\Window.h">
-      <Filter>TZE\layer\window</Filter>
+    <ClInclude Include="src\TZE\layers\Vulkan\Instance.h">
+      <Filter>TZE\layers\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TZE\layers\Window\Window.h">
+      <Filter>TZE\layers\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\TZE\loging\Log.h">
       <Filter>TZE\loging</Filter>
@@ -42,8 +48,11 @@
     <ClCompile Include="src\TZE\App.cpp">
       <Filter>TZE</Filter>
     </ClCompile>
-    <ClCompile Include="src\TZE\layer\window\Window.cpp">
-      <Filter>TZE\layer\window</Filter>
+    <ClCompile Include="src\TZE\layers\Vulkan\Instance.cpp">
+      <Filter>TZE\layers\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TZE\layers\Window\Window.cpp">
+      <Filter>TZE\layers\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\TZE\loging\Log.cpp">
       <Filter>TZE\loging</Filter>

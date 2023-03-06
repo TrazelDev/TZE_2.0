@@ -1,10 +1,15 @@
 #include "pch.h"
 #include "app.h"
 
+#include "Layers/Window/Window.h"
+#include "layers/Vulkan/Instance.h"
+
 namespace tze {
 	App::App()
 	{
-		_layers.push_back(new Window);
+		_layers.push_back(new Window());
+		_layers.push_back(new Instance(((Window*)_layers[WINDOW_LAYER_INDEX])->getWindow()));
+		
 	}
 
 	App::~App()
