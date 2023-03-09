@@ -2,7 +2,7 @@
 
 namespace tze
 {
-	class Layer
+	class TZE_API Layer
 	{
 	public:
 		/// <summary>

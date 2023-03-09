@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>TZE_PLATFORM_WINDOWS;DEBUG_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\TRAZEL_ENGINE_2.0\src;..\third_party_extentions\glfw\include;..\third_party_extentions\spdlog\include\spdlog;..\third_party_extentions\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\TRAZEL_ENGINE_2.0\src;..\TRAZEL_ENGINE_2.0\src\TZE;..\third_party_extentions;..\third_party_extentions\glfw\include;..\third_party_extentions\spdlog\include\spdlog;..\third_party_extentions\spdlog\include;..\third_party_extentions\vulkan_sdk\Include;..\third_party_extentions\glm-master;..\third_party_extentions\glm-master\glm\detail;..\third_party_extentions\glm-master\glm;..\third_party_extentions\glm-master\glm\gtc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -88,6 +88,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>..\third_party_extentions\glfw\lib-vc2022\glfw3.lib;..\third_party_extentions\vulkan_sdk\Lib\vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -96,7 +97,7 @@
       <WarningLevel>Level3</WarningLevel>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PreprocessorDefinitions>TZE_PLATFORM_WINDOWS;REALSE_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\TRAZEL_ENGINE_2.0\src;..\third_party_extentions\glfw\include;..\third_party_extentions\spdlog\include\spdlog;..\third_party_extentions\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\TRAZEL_ENGINE_2.0\src;..\TRAZEL_ENGINE_2.0\src\TZE;..\third_party_extentions;..\third_party_extentions\glfw\include;..\third_party_extentions\spdlog\include\spdlog;..\third_party_extentions\spdlog\include;..\third_party_extentions\vulkan_sdk\Include;..\third_party_extentions\glm-master;..\third_party_extentions\glm-master\glm\detail;..\third_party_extentions\glm-master\glm;..\third_party_extentions\glm-master\glm\gtc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -109,6 +110,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>..\third_party_extentions\glfw\lib-vc2022\glfw3.lib;..\third_party_extentions\vulkan_sdk\Lib\vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Client|x64'">
@@ -116,7 +118,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>TZE_PLATFORM_WINDOWS;CLIENT_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\TRAZEL_ENGINE_2.0\src;..\third_party_extentions\glfw\include;..\third_party_extentions\spdlog\include\spdlog;..\third_party_extentions\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\TRAZEL_ENGINE_2.0\src;..\TRAZEL_ENGINE_2.0\src\TZE;..\third_party_extentions;..\third_party_extentions\glfw\include;..\third_party_extentions\spdlog\include\spdlog;..\third_party_extentions\spdlog\include;..\third_party_extentions\vulkan_sdk\Include;..\third_party_extentions\glm-master;..\third_party_extentions\glm-master\glm\detail;..\third_party_extentions\glm-master\glm;..\third_party_extentions\glm-master\glm\gtc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -125,6 +127,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>..\third_party_extentions\glfw\lib-vc2022\glfw3.lib;..\third_party_extentions\vulkan_sdk\Lib\vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -134,9 +137,6 @@
     <ProjectReference Include="..\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.vcxproj">
       <Project>{9B2E240D-0745-22A3-50BC-ADC4BC11F32A}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="comments.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

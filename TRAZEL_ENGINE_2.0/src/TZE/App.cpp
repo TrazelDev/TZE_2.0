@@ -9,14 +9,18 @@ namespace tze {
 	{
 		_layers.push_back(new Window());
 		_layers.push_back(new Instance(((Window*)_layers[WINDOW_LAYER_INDEX])->getWindow()));
-		
 	}
 
 	App::~App()
 	{
-
+		// TODO: delete the layers
 	}
 
+
+	void App::appInit()
+	{
+
+	}
 
 	void App::run()
 	{
@@ -34,5 +38,20 @@ namespace tze {
 		}
 
 		TZE_ENGINE_INFO("Successfully closed the window");
+	}
+	
+	vk::PhysicalDevice& App::getPhysicalDevice()
+	{
+		return *((Instance*)_layers[INSTANCE_LAYER_INDEX])->getPhysicalDevice(); 
+
+	}
+	vk::Device& App::getLogicalDevice()
+	{
+		return *(((Instance*)_layers[INSTANCE_LAYER_INDEX])->getLogicalDevice());
+	}
+
+	void App::addLayer(Layer* layer)
+	{
+		_layers.push_back(layer);
 	}
 }

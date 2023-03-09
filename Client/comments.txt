@@ -1,2 +1,2 @@
 1. mybe use static dipatch loader instead of dymic one
-
+2. mybe make a way to choose the physical device that the machine is using as the stronges gpu

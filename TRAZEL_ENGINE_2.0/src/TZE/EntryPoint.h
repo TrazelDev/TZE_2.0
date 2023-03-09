@@ -1,4 +1,5 @@
 #pragma once
+#include "logging/Log.h"
 
 #ifdef TZE_PLATFORM_WINDOWS
 	#ifndef CLIENT_MODE

@@ -10,11 +10,17 @@
     <Filter Include="TZE\layers\Vulkan">
       <UniqueIdentifier>{9755CB71-036C-C907-4CE3-5429B8389A8F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TZE\layers\Vulkan\Objects">
+      <UniqueIdentifier>{509B5621-BC5D-8AAB-050E-1938710F6389}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TZE\layers\Vulkan\vk_logging">
+      <UniqueIdentifier>{AD13CEC3-99CE-BD6F-4286-36BA2E200800}</UniqueIdentifier>
+    </Filter>
     <Filter Include="TZE\layers\Window">
       <UniqueIdentifier>{FE544873-6A6B-4609-B3E2-D12A1F381791}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TZE\loging">
-      <UniqueIdentifier>{A7CC9450-9384-D69D-FC8B-AFF9E862718E}</UniqueIdentifier>
+    <Filter Include="TZE\logging">
+      <UniqueIdentifier>{CE342D63-3AEA-A558-C3DE-9F2F2F939C5C}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -34,11 +40,20 @@
     <ClInclude Include="src\TZE\layers\Vulkan\Instance.h">
       <Filter>TZE\layers\Vulkan</Filter>
     </ClInclude>
+    <ClInclude Include="src\TZE\layers\Vulkan\Objects\GameObj.h">
+      <Filter>TZE\layers\Vulkan\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TZE\layers\Vulkan\Objects\Model.h">
+      <Filter>TZE\layers\Vulkan\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TZE\layers\Vulkan\vk_logging\vkLogging.h">
+      <Filter>TZE\layers\Vulkan\vk_logging</Filter>
+    </ClInclude>
     <ClInclude Include="src\TZE\layers\Window\Window.h">
       <Filter>TZE\layers\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\TZE\loging\Log.h">
-      <Filter>TZE\loging</Filter>
+    <ClInclude Include="src\TZE\logging\Log.h">
+      <Filter>TZE\logging</Filter>
     </ClInclude>
     <ClInclude Include="src\TZE\pch.h">
       <Filter>TZE</Filter>
@@ -51,11 +66,20 @@
     <ClCompile Include="src\TZE\layers\Vulkan\Instance.cpp">
       <Filter>TZE\layers\Vulkan</Filter>
     </ClCompile>
+    <ClCompile Include="src\TZE\layers\Vulkan\Objects\GameObj.cpp">
+      <Filter>TZE\layers\Vulkan\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TZE\layers\Vulkan\Objects\Model.cpp">
+      <Filter>TZE\layers\Vulkan\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TZE\layers\Vulkan\vk_logging\vkLogging.cpp">
+      <Filter>TZE\layers\Vulkan\vk_logging</Filter>
+    </ClCompile>
     <ClCompile Include="src\TZE\layers\Window\Window.cpp">
       <Filter>TZE\layers\Window</Filter>
     </ClCompile>
-    <ClCompile Include="src\TZE\loging\Log.cpp">
-      <Filter>TZE\loging</Filter>
+    <ClCompile Include="src\TZE\logging\Log.cpp">
+      <Filter>TZE\logging</Filter>
     </ClCompile>
     <ClCompile Include="src\TZE\pch.cpp">
       <Filter>TZE</Filter>

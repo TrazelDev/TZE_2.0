@@ -23,7 +23,7 @@
 #include <spdlog.h>
 #include <sinks/stdout_color_sinks.h>
 #include <logger.h>
-#include "loging/Log.h"
+#include "logging/Log.h"
 
 // window libraries:
 #define GLFW_INCLUDE_VULKAN
@@ -34,6 +34,13 @@
 
 // Vulkan includes:
 #include <vulkan/vulkan.hpp>
+
+// glm includes:
+#define GLM_FORCE_RADIANTS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
+#include <glm/glm.hpp>
+#include <glm/gtc/constants.hpp>
+
 
 // A way to make only debugging features:
 #ifndef CLIENT_MODE

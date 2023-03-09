@@ -10,7 +10,6 @@ tze::Window::Window(int width, int height, const char* title)
 	_window = nullptr;
 
 	buildGLFWWindow();
-
 	TZE_ENGINE_INFO("Successfully finished creating the Window layer");
 }
 

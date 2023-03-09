@@ -13,7 +13,7 @@ namespace tze
 
 		vk::DebugUtilsMessengerEXT makeDebugMessenger(vk::Instance& instance, vk::DispatchLoaderDynamic& dldi);
 
-
+		void logDeviceProperties(const vk::PhysicalDevice& device);
 		// std::vector<std::string> log_transform_bits(vk::SurfaceTransformFlagsKHR bits);
 		// 
 		// 

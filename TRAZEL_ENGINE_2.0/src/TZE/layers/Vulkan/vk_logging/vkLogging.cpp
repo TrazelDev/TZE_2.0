@@ -29,3 +29,34 @@ vk::DebugUtilsMessengerEXT tze::makeDebugMessenger(vk::Instance& instance, vk::D
 	return instance.createDebugUtilsMessengerEXT(createInfo, nullptr, dldi);
 }
 
+void tze::logDeviceProperties(const vk::PhysicalDevice& device)
+{
+	vk::PhysicalDeviceProperties proprties = device.getProperties();
+
+	std::cout << "device name: " << proprties.deviceName << '\n';
+
+	std::cout << "device type: ";
+	switch (proprties.deviceType)
+	{
+	case (vk::PhysicalDeviceType::eCpu):
+		TZE_ENGINE_WARN("gpu wasn't choosen to be the physical device");
+		std::cout << "CPU\n";
+		break;
+
+	case (vk::PhysicalDeviceType::eDiscreteGpu):
+		std::cout << "Discrte GPU\n";
+		break;
+
+	case (vk::PhysicalDeviceType::eIntegratedGpu):
+		std::cout << "Integrated GPU\n";
+		break;
+
+	case (vk::PhysicalDeviceType::eVirtualGpu):
+		std::cout << "Virtuel GPU\n";
+		break;
+
+	default:
+		std::cout << "Other\n";
+	}
+}
+

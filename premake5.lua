@@ -27,10 +27,15 @@ project "TRAZEL_ENGINE_2.0"
 
     includedirs {
         "%{prj.name}/src/TZE",
+        "third_party_extentions",
         "third_party_extentions/glfw/include",
         "third_party_extentions/spdlog/include/spdlog",
         "third_party_extentions/spdlog/include",
         "third_party_extentions/vulkan_sdk/Include",
+        "third_party_extentions/glm-master",
+        "third_party_extentions/glm-master/glm/detail",
+        "third_party_extentions/glm-master/glm",
+        "third_party_extentions/glm-master/glm/gtc"
     }
 
     links {
@@ -84,9 +89,16 @@ project "Client"
 
     includedirs {
         "TRAZEL_ENGINE_2.0/src",
+        "TRAZEL_ENGINE_2.0/src/TZE",
+        "third_party_extentions",
         "third_party_extentions/glfw/include",
         "third_party_extentions/spdlog/include/spdlog",
         "third_party_extentions/spdlog/include",
+        "third_party_extentions/vulkan_sdk/Include",
+        "third_party_extentions/glm-master",
+        "third_party_extentions/glm-master/glm/detail",
+        "third_party_extentions/glm-master/glm",
+        "third_party_extentions/glm-master/glm/gtc"
     }
 
     links {
@@ -102,6 +114,10 @@ project "Client"
             "TZE_PLATFORM_WINDOWS"
         }
 
+        links {
+            "third_party_extentions/glfw/lib-vc2022/glfw3.lib",
+            "third_party_extentions/vulkan_sdk/Lib/vulkan-1.lib"
+        }
     
     filter "configurations:Debug"
         defines "DEBUG_MODE"
