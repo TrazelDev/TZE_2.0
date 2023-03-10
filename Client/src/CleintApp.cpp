@@ -33,7 +33,7 @@ tze::App* tze::createApp()
 	triangle->model = model;
 	triangle->color = { 0.8f, 0.0f, 0.0f };
 	triangle->transform_2D = tze::Transform_2DComponent();
-	clientApp->addLayer(triangle);
+	clientApp->addObject(triangle);
 
 	return clientApp;
 }

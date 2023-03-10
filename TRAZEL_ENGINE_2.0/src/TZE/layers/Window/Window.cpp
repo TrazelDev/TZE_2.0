@@ -20,6 +20,7 @@ tze::Window::~Window()
 
 void tze::Window::run()
 {
+	calculateFrameRate();
 	glfwPollEvents();
 	_closedWindowFLag = glfwWindowShouldClose(_window);
 }
@@ -34,14 +35,33 @@ GLFWwindow* tze::Window::getWindow() const
 	return _window;
 }
 
-uint32_t tze::Window::getWidth() const
+uint32_t* tze::Window::getWidth()
 {
-	return _width;
+	return &_width;
 }
 
-uint32_t tze::Window::getHeight() const
+uint32_t* tze::Window::getHeight()
 {
-	return _height;
+	return &_height;
+}
+
+void tze::Window::calculateFrameRate()
+{
+	_currentTime = glfwGetTime();
+	double delta = _currentTime - _lastTime;
+
+	if (delta >= 1)
+	{
+		int framerate{ std::max(1, int(_numFrames / delta)) };
+		std::stringstream title;
+		title << "running at " << framerate << " fps.";
+		glfwSetWindowTitle(_window, title.str().c_str());
+		_lastTime = _currentTime;
+		_numFrames = -1;
+		_frameTime = float(1000.0 / framerate);
+	}
+
+	_numFrames++;
 }
 
 void tze::Window::buildGLFWWindow()

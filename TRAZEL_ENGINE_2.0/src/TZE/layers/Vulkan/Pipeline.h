@@ -16,9 +16,6 @@ namespace tze
 
 		void run() override;
 	private:
-		vk::Device& _logicalDevice;
-		vk::PhysicalDevice& _physicalDevice;
-		vk::SurfaceKHR& _surface;
 	};
 
 }

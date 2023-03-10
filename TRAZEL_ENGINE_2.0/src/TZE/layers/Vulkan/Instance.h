@@ -32,12 +32,12 @@ namespace tze
 		
 		void run() override;
 
-		/// <summary>
-		/// function that ex
-		/// </summary>
-		/// <returns></returns>
+
 		vk::PhysicalDevice* getPhysicalDevice();
 		vk::Device* getLogicalDevice();
+		vk::SurfaceKHR* getSurface();
+		QueueFamilies* getQueueFamilies();
+
 	private:
 		/// <summary>
 		/// the function is checking if the the extensions and layers that were chosen are real extensions for Vulkan instance 

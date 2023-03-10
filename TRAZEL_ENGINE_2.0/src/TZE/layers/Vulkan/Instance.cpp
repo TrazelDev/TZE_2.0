@@ -30,6 +30,8 @@ tze::Instance::Instance(GLFWwindow* window, const std::string& title)
 
 tze::Instance::~Instance()
 {
+	_logicalDevice.destroy();
+
 	_instance.destroySurfaceKHR(_surface);
 	DEBUG_CMD(_instance.destroyDebugUtilsMessengerEXT(_debugMessenger, nullptr, _dldi);)
 	_instance.destroy();
@@ -47,6 +49,16 @@ vk::PhysicalDevice* tze::Instance::getPhysicalDevice()
 vk::Device* tze::Instance::getLogicalDevice()
 {
 	return &_logicalDevice;
+}
+
+vk::SurfaceKHR* tze::Instance::getSurface()
+{
+	return &_surface;
+}
+
+tze::QueueFamilies* tze::Instance::getQueueFamilies()
+{
+	return &_indices;
 }
 
 

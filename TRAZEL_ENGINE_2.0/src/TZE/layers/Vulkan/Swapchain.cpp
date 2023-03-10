@@ -3,12 +3,12 @@
 #include "vk_logging/vkLogging.h"
 
 tze::Swapchain::Swapchain(const swapchainBundle& input)
-	: _logicalDevice(input.logicalDevice), _physicalDevice(input.physicalDevice), _surface(input.surface)
+	: _logicalDevice(input._logicalDevice), _physicalDevice(input._physicalDevice), _surface(input._surface)
 {
 	createSwapChain(input);
 
 	std::vector<vk::Image> images = _logicalDevice.getSwapchainImagesKHR(_swapchain);
-	std::vector<SwapchainFrame> frames(images.size());
+	_frames.resize(images.size());
 
 	for (size_t i = 0; i < images.size(); i++)
 	{
@@ -26,14 +26,17 @@ tze::Swapchain::Swapchain(const swapchainBundle& input)
 		createInfo.subresourceRange.layerCount = 1;
 		createInfo.format = _format.format;
 
-		frames[i].image = images[i];
-		frames[i].imageView = _logicalDevice.createImageView(createInfo);
+		_frames[i].image = images[i];
+		_frames[i].imageView = _logicalDevice.createImageView(createInfo);
 	}
-	
-
 }
 
 tze::Swapchain::~Swapchain()
+{
+	_logicalDevice.destroySwapchainKHR();
+}
+
+void tze::Swapchain::run()
 {
 
 }
@@ -43,7 +46,7 @@ void tze::Swapchain::createSwapChain(const swapchainBundle& input)
 	vk::SurfaceCapabilitiesKHR capabilities = _physicalDevice.getSurfaceCapabilitiesKHR(_surface);;
 	std::vector<vk::SurfaceFormatKHR> formats = _physicalDevice.getSurfaceFormatsKHR(_surface);;
 	std::vector<vk::PresentModeKHR> presentModes = _physicalDevice.getSurfacePresentModesKHR(_surface);;
-	SHOW_DATA(querySwapchainSupport(););
+	SHOW_DATA(querySwapchainSupport(capabilities, formats, presentModes););
 
 
 
@@ -91,15 +94,15 @@ void tze::Swapchain::createSwapChain(const swapchainBundle& input)
 	}
 	else
 	{
-		_extent.width = std::min(capabilities.maxImageExtent.width, std::max(capabilities.minImageExtent.width, input.width));
-		_extent.height = std::min(capabilities.maxImageExtent.height, std::max(capabilities.minImageExtent.height, input.height));
+		_extent.width = std::min(capabilities.maxImageExtent.width, std::max(capabilities.minImageExtent.width, input._width));
+		_extent.height = std::min(capabilities.maxImageExtent.height, std::max(capabilities.minImageExtent.height, input._height));
 	}
 
 	_imageCount = std::min(capabilities.maxImageCount, capabilities.minImageCount + 1);
 
 	vk::SwapchainCreateInfoKHR createInfo(
 		/* flags */ vk::SwapchainCreateFlagsKHR(),
-		/* surface */ input.surface,
+		/* surface */ input._surface,
 		/* image count */ _imageCount,
 		/* image format */ _format.format,
 		/* color space */ _format.colorSpace,
@@ -108,9 +111,9 @@ void tze::Swapchain::createSwapChain(const swapchainBundle& input)
 		/* image usage */ vk::ImageUsageFlagBits::eColorAttachment
 	);
 
-	if (input.indices.graphicsIndex.value() != input.indices.presentIndex.value())
+	if (input._indices.graphicsIndex.value() != input._indices.presentIndex.value())
 	{
-		uint32_t queueFamilyIndices[] = { input.indices.graphicsIndex.value(), input.indices.presentIndex.value() };
+		uint32_t queueFamilyIndices[] = { input._indices.graphicsIndex.value(), input._indices.presentIndex.value() };
 		createInfo.imageSharingMode = vk::SharingMode::eConcurrent;
 		createInfo.queueFamilyIndexCount = 2;
 		createInfo.pQueueFamilyIndices = queueFamilyIndices;

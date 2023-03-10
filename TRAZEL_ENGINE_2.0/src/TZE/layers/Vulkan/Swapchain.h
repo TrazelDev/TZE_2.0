@@ -6,12 +6,20 @@ namespace tze
 {
 	struct swapchainBundle
 	{
-		vk::Device& logicalDevice;
-		vk::PhysicalDevice& physicalDevice;
-		vk::SurfaceKHR& surface;
-		uint32_t width;
-		uint32_t height;
-		QueueFamilies indices;
+		vk::Device& _logicalDevice;
+		vk::PhysicalDevice& _physicalDevice;
+		vk::SurfaceKHR& _surface;
+		uint32_t _width;
+		uint32_t _height;
+		QueueFamilies& _indices;
+
+		swapchainBundle(vk::Device& logicalDevice, vk::PhysicalDevice& physicalDevice, vk::SurfaceKHR& surface, QueueFamilies& indices,
+			uint32_t _width, uint32_t height)
+			: _logicalDevice(logicalDevice), _physicalDevice(physicalDevice), _surface(surface), _indices(indices)
+		{
+
+		}
+
 	};
 
 	struct SwapchainFrame
@@ -24,15 +32,16 @@ namespace tze
 		vk::Fence inFlight;
 	};
 
-	class Swapchain
+	class Swapchain : public Layer
 	{
 	public:
 		Swapchain(const swapchainBundle& input);
 		~Swapchain();
 
+		void run() override;
+	private:
 		// the function is responsible of creating the VULKAN swap chain object
 		void createSwapChain(const swapchainBundle& input);
-	private:
 		void querySwapchainSupport(const vk::SurfaceCapabilitiesKHR& capabilities,
 			const std::vector<vk::SurfaceFormatKHR>& formats, std::vector<vk::PresentModeKHR> presentModes);
 		vk::Device& _logicalDevice;
@@ -48,6 +57,7 @@ namespace tze
 		vk::PresentModeKHR _presentMode;
 		vk::Extent2D _extent;
 		uint32_t _imageCount; // the amount of images that the are going to be swapped with each other
+		std::vector<SwapchainFrame> _frames;
 	};
 }
 

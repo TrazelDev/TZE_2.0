@@ -2,6 +2,10 @@
 #include "pch.h"
 #include "Core.h"
 #include "layers/Layer.h"
+#include "layers/Window/Window.h"
+#include "layers/Vulkan/Objects/GameObj.h"
+#include "layers/Vulkan/Instance.h"
+#include "layers/Vulkan/Swapchain.h"
 
 #define WINDOW_LAYER_INDEX 0
 #define INSTANCE_LAYER_INDEX 1
@@ -24,14 +28,22 @@ namespace tze
 		void appInit();
 		void run();
 
+		 void addObject(GameObject* gameObject);
+
 		vk::PhysicalDevice& getPhysicalDevice();
 		vk::Device& getLogicalDevice();
+		vk::SurfaceKHR& getSurface();
+		QueueFamilies& getQueueIndices();
 
-		void addLayer(Layer* layer);
-	private:
-		std::vector<Layer*> _layers;
+	protected:
+		Window _window;
 		uint32_t* _width;
 		uint32_t* _height;
+
+		Instance _instance;
+		Swapchain _swapchain;
+		std::vector<GameObject*> _gameObjects;
+
 	};
 
 	// this will be defined in the client 

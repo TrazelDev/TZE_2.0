@@ -3,14 +3,15 @@
 
 #include "Layers/Window/Window.h"
 #include "layers/Vulkan/Instance.h"
+#include "layers/Vulkan/Swapchain.h"
 
 namespace tze {
 	App::App()
+		: _window(), _instance(_window.getWindow()), 
+		_width(_window.getWidth()), _height(_window.getWidth()),
+		_swapchain(swapchainBundle(*_instance.getLogicalDevice(), *_instance.getPhysicalDevice(), 
+			*_instance.getSurface(), *_instance.getQueueFamilies(), *_width, *_height))
 	{
-		_layers.push_back(new Window());
-		_width = ((Window*)_layers[WINDOW_LAYER_INDEX])->getHeight();
-		_height = ((Window*)_layers[WINDOW_LAYER_INDEX])->getWidth();
-		_layers.push_back(new Instance(((Window*)_layers[WINDOW_LAYER_INDEX])->getWindow()));
 	}
 
 	App::~App()
@@ -26,34 +27,43 @@ namespace tze {
 
 	void App::run()
 	{
-		bool* closingFlag = ((Window*)_layers[WINDOW_LAYER_INDEX])->closeWindowFlag();
+		bool* closingFlag = _window.closeWindowFlag();
 
 		while (!*closingFlag)
 		{
-			for (Layer* layer : this->_layers)
-			{
-				layer->run();
-			}
-
-			// majorLay->onUpdate();
-			//imguiLay->onUpdate();
+			_window.run();
+			_instance.run();
+			_swapchain.run();
 		}
 
 		TZE_ENGINE_INFO("Successfully closed the window");
 	}
+
+	void App::addObject(GameObject* gameObject)
+	{
+		_gameObjects.push_back(gameObject);
+	}
 	
 	vk::PhysicalDevice& App::getPhysicalDevice()
 	{
-		return *((Instance*)_layers[INSTANCE_LAYER_INDEX])->getPhysicalDevice(); 
+		return *_instance.getPhysicalDevice(); 
 
 	}
 	vk::Device& App::getLogicalDevice()
 	{
-		return *(((Instance*)_layers[INSTANCE_LAYER_INDEX])->getLogicalDevice());
+		return *_instance.getLogicalDevice();
 	}
 
-	void App::addLayer(Layer* layer)
+	vk::SurfaceKHR& App::getSurface()
 	{
-		_layers.push_back(layer);
+		return *_instance.getSurface();
 	}
+
+	QueueFamilies& App::getQueueIndices()
+	{
+		return *_instance.getQueueFamilies();
+	}
+
+	
+
 }
