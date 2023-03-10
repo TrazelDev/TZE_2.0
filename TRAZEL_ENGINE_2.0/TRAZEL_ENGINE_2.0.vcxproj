@@ -167,6 +167,7 @@ IF EXIST ..\bin\Client-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll\ (
     <ClInclude Include="src\TZE\layers\Window\Window.h" />
     <ClInclude Include="src\TZE\logging\Log.h" />
     <ClInclude Include="src\TZE\pch.h" />
+    <ClInclude Include="src\TZE\layers\Vulkan\Swapchain.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TZE\layers\Vulkan\Pipeline.cpp" />
@@ -180,6 +181,7 @@ IF EXIST ..\bin\Client-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll\ (
     <ClCompile Include="src\TZE\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\TZE\layers\Vulkan\Swapchain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

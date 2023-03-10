@@ -50,10 +50,15 @@
 #endif
 
 // A way for me to tell for things that are plain data and I have the option to toggle here if I want to see it or not:
-#define WANT_TO_SHOW_DATA
-
 #ifdef WANT_TO_SHOW_DATA
+#pragma region SHOW_DATA macro
 #define SHOW_DATA(x) x
 #else
 #define SHOW_DATA(x)
+#endif
+
+// your macro's code goes here
+
+#ifdef WANT_TO_SHOW_DATA
+#pragma endregion
 #endif

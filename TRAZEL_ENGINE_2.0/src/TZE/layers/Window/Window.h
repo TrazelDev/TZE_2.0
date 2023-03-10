@@ -24,6 +24,10 @@ namespace tze
 
 		/// <returns>the glfw window that is created int this class</returns>
 		GLFWwindow* getWindow() const;
+
+		uint32_t* getWidth() const;
+		uint32_t* getHeight() const;
+
 	private:
 		void buildGLFWWindow();
 

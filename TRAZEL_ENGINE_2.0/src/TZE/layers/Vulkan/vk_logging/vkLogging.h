@@ -14,12 +14,11 @@ namespace tze
 		vk::DebugUtilsMessengerEXT makeDebugMessenger(vk::Instance& instance, vk::DispatchLoaderDynamic& dldi);
 
 		void logDeviceProperties(const vk::PhysicalDevice& device);
-		// std::vector<std::string> log_transform_bits(vk::SurfaceTransformFlagsKHR bits);
-		// 
-		// 
-		// std::vector<std::string> log_alpha_composite_string(vk::CompositeAlphaFlagsKHR bits);
-		// 
-		// 
-		// std::vector<std::string> log_image_usage_bits(vk::ImageUsageFlags bits);
+
+		// logging functions:
+		std::vector<std::string> logTransformBits(vk::SurfaceTransformFlagsKHR bits);
+		std::vector<std::string> logAlphaCompositesString(vk::CompositeAlphaFlagsKHR bits);
+		std::vector<std::string> logImageUsageBits(vk::ImageUsageFlags bits);
+		std::string logPresentMode(vk::PresentModeKHR presentMode);
 
 }

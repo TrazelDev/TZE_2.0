@@ -4,3 +4,11 @@
 tze::Pipeline::Pipeline()
 {
 }
+
+tze::Pipeline::~Pipeline()
+{
+}
+
+void tze::Pipeline::run()
+{
+}

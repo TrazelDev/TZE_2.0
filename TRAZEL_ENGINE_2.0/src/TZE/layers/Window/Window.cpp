@@ -34,6 +34,16 @@ GLFWwindow* tze::Window::getWindow() const
 	return _window;
 }
 
+uint32_t tze::Window::getWidth() const
+{
+	return _width;
+}
+
+uint32_t tze::Window::getHeight() const
+{
+	return _height;
+}
+
 void tze::Window::buildGLFWWindow()
 {
 	// initializing GLFW

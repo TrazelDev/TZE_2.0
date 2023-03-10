@@ -8,6 +8,8 @@ namespace tze {
 	App::App()
 	{
 		_layers.push_back(new Window());
+		_width = ((Window*)_layers[WINDOW_LAYER_INDEX])->getHeight();
+		_height = ((Window*)_layers[WINDOW_LAYER_INDEX])->getWidth();
 		_layers.push_back(new Instance(((Window*)_layers[WINDOW_LAYER_INDEX])->getWindow()));
 	}
 

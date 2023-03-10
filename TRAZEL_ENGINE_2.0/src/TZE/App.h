@@ -30,6 +30,8 @@ namespace tze
 		void addLayer(Layer* layer);
 	private:
 		std::vector<Layer*> _layers;
+		uint32_t* _width;
+		uint32_t* _height;
 	};
 
 	// this will be defined in the client 
