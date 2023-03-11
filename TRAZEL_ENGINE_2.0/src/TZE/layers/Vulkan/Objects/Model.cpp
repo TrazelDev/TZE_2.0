@@ -105,11 +105,26 @@ uint32_t tze::Model::findMemoryType(uint32_t typeFilter, const vk::MemoryPropert
 std::vector<vk::VertexInputBindingDescription> tze::Model::Vertex::getBindingDescriptions()
 {
 	std::vector<vk::VertexInputBindingDescription> bidingDescription(1);
+	bidingDescription[0].binding = 0;
+	bidingDescription[0].stride = sizeof(Vertex);
+	bidingDescription[0].inputRate = vk::VertexInputRate::eVertex;
+
 
 	return bidingDescription;
 }
 
 std::vector<vk::VertexInputAttributeDescription> tze::Model::Vertex::getAttributeDescriptions()
 {
-	return std::vector<vk::VertexInputAttributeDescription>();
+	std::vector<vk::VertexInputAttributeDescription> attributeDescription(2);
+	attributeDescription[0].binding = 0;
+	attributeDescription[0].location = 0;
+	attributeDescription[0].format = vk::Format::eR32G32Sfloat; // VK_FORMAT_R32G32_SFLOAT;
+	attributeDescription[0].offset = offsetof(Vertex, _position);
+
+	attributeDescription[1].binding = 0;
+	attributeDescription[1].location = 1;
+	attributeDescription[1].format = vk::Format::eR32G32Sfloat;
+	attributeDescription[1].offset = offsetof(Vertex, _color);
+
+	return attributeDescription;
 }

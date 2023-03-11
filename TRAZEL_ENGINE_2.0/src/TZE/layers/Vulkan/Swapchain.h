@@ -32,6 +32,7 @@ namespace tze
 		vk::Fence inFlight;
 	};
 
+
 	class Swapchain : public Layer
 	{
 	public:
@@ -39,11 +40,19 @@ namespace tze
 		~Swapchain();
 
 		void run() override;
+		vk::Format& getFormat();
+		vk::Extent2D& getExtent();
+		std::vector<SwapchainFrame>& getFrames();
 	private:
 		// the function is responsible of creating the VULKAN swap chain object
 		void createSwapChain(const swapchainBundle& input);
 		void querySwapchainSupport(const vk::SurfaceCapabilitiesKHR& capabilities,
 			const std::vector<vk::SurfaceFormatKHR>& formats, std::vector<vk::PresentModeKHR> presentModes);
+		
+		// understand what it is:
+		vk::Fence createFence();
+		vk::Semaphore createSemaphore();
+
 		vk::Device& _logicalDevice;
 		vk::PhysicalDevice& _physicalDevice;
 		vk::SurfaceKHR& _surface;

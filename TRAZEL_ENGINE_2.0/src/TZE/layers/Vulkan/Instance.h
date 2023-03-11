@@ -76,6 +76,7 @@ namespace tze
 		/// </summary>
 		void checkAvailableQueues();
 
+
 		// Instance related:
 		vk::Instance _instance;  // instance to the VULKAN API
 		vk::SurfaceKHR _surface; // the surface of the VULKAN on the window ( surface is essentially a way place where the VULKAN API can render on the screen)

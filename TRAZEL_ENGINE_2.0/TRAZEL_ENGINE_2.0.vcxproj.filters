@@ -13,6 +13,9 @@
     <Filter Include="TZE\layers\Vulkan\Objects">
       <UniqueIdentifier>{509B5621-BC5D-8AAB-050E-1938710F6389}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TZE\layers\Vulkan\pipeline">
+      <UniqueIdentifier>{BCD381E9-A8E3-2DBA-119D-92D8FDCB1C53}</UniqueIdentifier>
+    </Filter>
     <Filter Include="TZE\layers\Vulkan\vk_logging">
       <UniqueIdentifier>{AD13CEC3-99CE-BD6F-4286-36BA2E200800}</UniqueIdentifier>
     </Filter>
@@ -37,6 +40,9 @@
     <ClInclude Include="src\TZE\layers\Layer.h">
       <Filter>TZE\layers</Filter>
     </ClInclude>
+    <ClInclude Include="src\TZE\layers\Vulkan\Commands.h">
+      <Filter>TZE\layers\Vulkan</Filter>
+    </ClInclude>
     <ClInclude Include="src\TZE\layers\Vulkan\Instance.h">
       <Filter>TZE\layers\Vulkan</Filter>
     </ClInclude>
@@ -45,6 +51,12 @@
     </ClInclude>
     <ClInclude Include="src\TZE\layers\Vulkan\Objects\Model.h">
       <Filter>TZE\layers\Vulkan\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TZE\layers\Vulkan\Swapchain.h">
+      <Filter>TZE\layers\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TZE\layers\Vulkan\pipeline\Pipeline.h">
+      <Filter>TZE\layers\Vulkan\pipeline</Filter>
     </ClInclude>
     <ClInclude Include="src\TZE\layers\Vulkan\vk_logging\vkLogging.h">
       <Filter>TZE\layers\Vulkan\vk_logging</Filter>
@@ -63,6 +75,9 @@
     <ClCompile Include="src\TZE\App.cpp">
       <Filter>TZE</Filter>
     </ClCompile>
+    <ClCompile Include="src\TZE\layers\Vulkan\Commands.cpp">
+      <Filter>TZE\layers\Vulkan</Filter>
+    </ClCompile>
     <ClCompile Include="src\TZE\layers\Vulkan\Instance.cpp">
       <Filter>TZE\layers\Vulkan</Filter>
     </ClCompile>
@@ -71,6 +86,12 @@
     </ClCompile>
     <ClCompile Include="src\TZE\layers\Vulkan\Objects\Model.cpp">
       <Filter>TZE\layers\Vulkan\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TZE\layers\Vulkan\Swapchain.cpp">
+      <Filter>TZE\layers\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TZE\layers\Vulkan\pipeline\Pipeline.cpp">
+      <Filter>TZE\layers\Vulkan\pipeline</Filter>
     </ClCompile>
     <ClCompile Include="src\TZE\layers\Vulkan\vk_logging\vkLogging.cpp">
       <Filter>TZE\layers\Vulkan\vk_logging</Filter>

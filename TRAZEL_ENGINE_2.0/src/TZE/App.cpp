@@ -10,12 +10,19 @@ namespace tze {
 		: _window(), _instance(_window.getWindow()), 
 		_width(_window.getWidth()), _height(_window.getWidth()),
 		_swapchain(swapchainBundle(*_instance.getLogicalDevice(), *_instance.getPhysicalDevice(), 
-			*_instance.getSurface(), *_instance.getQueueFamilies(), *_width, *_height))
+			*_instance.getSurface(), *_instance.getQueueFamilies(), *_width, *_height)), 
+		_pipeline(pipelineInput(*_instance.getLogicalDevice(), _swapchain.getFormat(), _swapchain.getExtent())), 
+		commands(CommandsInput(*_instance.getLogicalDevice(), *_instance.getPhysicalDevice(),
+			*_instance.getSurface(), _pipeline.getRenderPass(), _swapchain.getExtent(),
+			_swapchain.getFrames(), *_instance.getQueueFamilies()))
 	{
+		// pipelineInput input = pipelineInput(*_instance.getLogicalDevice(), _swapchain.getFormat(), _swapchain.getExtent());
+		/// Pipeline(input);
 	}
 
 	App::~App()
 	{
+		std::cout << "gf";
 		// TODO: delete the layers
 	}
 

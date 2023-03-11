@@ -6,6 +6,8 @@
 #include "layers/Vulkan/Objects/GameObj.h"
 #include "layers/Vulkan/Instance.h"
 #include "layers/Vulkan/Swapchain.h"
+#include "layers/Vulkan/pipeline/Pipeline.h"
+#include "layers/Vulkan/Commands.h"
 
 #define WINDOW_LAYER_INDEX 0
 #define INSTANCE_LAYER_INDEX 1
@@ -40,10 +42,12 @@ namespace tze
 		uint32_t* _width;
 		uint32_t* _height;
 
+		// vulkan:
 		Instance _instance;
 		Swapchain _swapchain;
 		std::vector<GameObject*> _gameObjects;
-
+		Pipeline _pipeline;
+		Commands commands;
 	};
 
 	// this will be defined in the client 

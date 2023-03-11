@@ -29,6 +29,13 @@ tze::Swapchain::Swapchain(const swapchainBundle& input)
 		_frames[i].image = images[i];
 		_frames[i].imageView = _logicalDevice.createImageView(createInfo);
 	}
+
+	for (SwapchainFrame& frame : _frames)
+	{
+		frame.inFlight = createFence();
+		frame.imageAvailable = createSemaphore();
+		frame.renderFinished = createSemaphore();
+	}
 }
 
 tze::Swapchain::~Swapchain()
@@ -39,6 +46,21 @@ tze::Swapchain::~Swapchain()
 void tze::Swapchain::run()
 {
 
+}
+
+vk::Format& tze::Swapchain::getFormat()
+{
+	return _format.format;
+}
+
+vk::Extent2D& tze::Swapchain::getExtent()
+{
+	return _extent;
+}
+
+std::vector<tze::SwapchainFrame>& tze::Swapchain::getFrames()
+{
+	return _frames;
 }
 
 void tze::Swapchain::createSwapChain(const swapchainBundle& input)
@@ -196,6 +218,38 @@ void tze::Swapchain::querySwapchainSupport(const vk::SurfaceCapabilitiesKHR& cap
 	for (vk::PresentModeKHR presentMode : presentModes)
 	{
 		std::cout << '\t' << logPresentMode(presentMode) << '\n';
+	}
+}
+
+vk::Fence tze::Swapchain::createFence()
+{
+	vk::FenceCreateInfo fenceInfo = {};
+	fenceInfo.flags = vk::FenceCreateFlags() | vk::FenceCreateFlagBits::eSignaled;
+
+	try
+	{
+		return _logicalDevice.createFence(fenceInfo);
+	}
+	catch (vk::SystemError err)
+	{
+		TZE_ENGINE_ERR("Failed to create fence");
+		return nullptr;
+	}
+}
+
+vk::Semaphore tze::Swapchain::createSemaphore()
+{
+	vk::SemaphoreCreateInfo semaphoreInfo = {};
+	semaphoreInfo.flags = vk::SemaphoreCreateFlags();
+
+	try
+	{
+		return _logicalDevice.createSemaphore(semaphoreInfo);
+	}
+	catch (vk::SystemError err)
+	{
+		TZE_ENGINE_ERR("Failed to create semaphore");
+		return nullptr;
 	}
 }
 

@@ -10,9 +10,16 @@ namespace tze
 			glm::vec2 _position;
 			glm::vec3 _color;
 
-			// define later
+			/// <summary>
+			/// function for getting the vertex input to know what kind of input the vertex Shader is getting 
+			/// </summary>
+			/// <returns>the vertex input binding vector</returns>
 			static std::vector<vk::VertexInputBindingDescription> getBindingDescriptions();
-			// define later
+
+			/// <summary>
+			/// this function is checking what are the attributes of the vertex input that is going into the vertex shader
+			/// </summary>
+			/// <returns>a vector with the attributes of the vertex input</returns>
 			static std::vector<vk::VertexInputAttributeDescription> getAttributeDescriptions();
 		};
 

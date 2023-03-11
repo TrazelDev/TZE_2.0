@@ -57,8 +57,24 @@ project "TRAZEL_ENGINE_2.0"
         postbuildcommands {
             -- ("{COPY} third_party_extentions/ bin/" .. output_dir .. "/Client"),
             ("{COPY} third_party_extentions/glfw/lib-vc2022/glfw3.lib bin/" .. output_dir .. "/Client"),
-            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. output_dir .. "/Client")
+            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. output_dir .. "/Client"),
+            ("$(ProjectDir)src\\TZE\\layers\\Vulkan\\pipeline\\Shaders\\glslc.exe $(ProjectDir)src\\TZE\\layers\\Vulkan\\pipeline\\Shaders\\shader.frag -o $(ProjectDir)..\\Client\\fragment.spv"),
+            ("$(ProjectDir)src\\TZE\\layers\\Vulkan\\pipeline\\Shaders\\glslc.exe $(ProjectDir)src\\TZE\\layers\\Vulkan\\pipeline\\Shaders\\shader.vert -o$(ProjectDir)..\\Client\\vertex.spv"),
+
         }
+
+        --prebuildcommands {
+        --    ("call C:\\Windows\\System32\\cmd.exe \\c $(ProjectDir)src\\TZE\\layers\\Vulkan\\pipeline\\Shaders\\compileShaders.bat"),
+        --}
+        
+        --postbuildcommands {
+        --    ("C:\\Windows\\System32\\cmd.exe xcopy /Y /S $(ProjectDir)third_party_extentions\\glfw\\lib-vc2022\\glfw3.lib $(ProjectDir)\\bin\\" .. output_dir .. "\\Client"),
+        --    ("C:\\Windows\\System32\\cmd.exe xcopy /Y /S $(ProjectDir)third_party_extentions\\glfw\\lib-vc2022\\glfw3.lib $(ProjectDir)\\bin\\" .. output_dir .. "\\Client"),
+        --    ("C:\\Windows\\System32\\cmd.exe xcopy /Y /S $(ProjectDir)" .. output_dir .. "\\TRAZEL_ENGINE_2.0.dll" .. " $(ProjectDir)bin\\" .. output_dir .. "\\Client"),
+        --    --("C:\\Windows\\System32\\cmd.exe xcopy /Y /S $(ProjectDir)TRAZEL_ENGINE_2.0\\src\\TZE\\layers\\Vulkan\\pipeline\\Shaders\\fragment.spv ..\\bin\\" .. output_dir .. "\\Client"),
+        --    --("C:\\Windows\\System32\\cmd.exe xcopy /Y /S fsfsfs\\fslayers\\Vulkan\\pipeline\\Shaders\\vertex.spv ..\\bin\\" .. output_dir .. "\\Client"),
+        --    --output_dir,
+        --}
 
     filter "configurations:Debug"
         defines "DEBUG_MODE"
