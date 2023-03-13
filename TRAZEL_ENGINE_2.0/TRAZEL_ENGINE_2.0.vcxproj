@@ -160,6 +160,7 @@ $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\T
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\TZE\layers\Vulkan\Renderer.h" />
     <ClInclude Include="src\TZE.h" />
     <ClInclude Include="src\TZE\App.h" />
     <ClInclude Include="src\TZE\Core.h" />
@@ -177,6 +178,7 @@ $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\T
     <ClInclude Include="src\TZE\pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\TZE\layers\Vulkan\Renderer.cpp" />
     <ClCompile Include="src\TZE\App.cpp" />
     <ClCompile Include="src\TZE\layers\Vulkan\Commands.cpp" />
     <ClCompile Include="src\TZE\layers\Vulkan\Instance.cpp" />

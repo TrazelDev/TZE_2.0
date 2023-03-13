@@ -63,6 +63,11 @@ std::vector<tze::SwapchainFrame>& tze::Swapchain::getFrames()
 	return _frames;
 }
 
+vk::SwapchainKHR& tze::Swapchain::getSwapchain()
+{
+	return _swapchain;
+}
+
 void tze::Swapchain::createSwapChain(const swapchainBundle& input)
 {
 	vk::SurfaceCapabilitiesKHR capabilities = _physicalDevice.getSurfaceCapabilitiesKHR(_surface);;

@@ -189,6 +189,16 @@ vk::RenderPass& tze::Pipeline::getRenderPass()
 	return _renderPass;
 }
 
+vk::Pipeline& tze::Pipeline::getPipeline()
+{
+	return _graphicsPipeline;
+}
+
+vk::PipelineLayout& tze::Pipeline::getLayout()
+{
+	return _layout;
+}
+
 vk::ShaderModule tze::Pipeline::createModule(const std::string& filename)
 {
 	std::vector<char> sourceCode = readFile(filename); // getting the content of the files

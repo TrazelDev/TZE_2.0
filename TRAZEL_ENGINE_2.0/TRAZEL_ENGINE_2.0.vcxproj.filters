@@ -70,6 +70,7 @@
     <ClInclude Include="src\TZE\pch.h">
       <Filter>TZE</Filter>
     </ClInclude>
+    <ClInclude Include="src\TZE\layers\Vulkan\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TZE\App.cpp">
@@ -105,5 +106,6 @@
     <ClCompile Include="src\TZE\pch.cpp">
       <Filter>TZE</Filter>
     </ClCompile>
+    <ClCompile Include="src\TZE\layers\Vulkan\Renderer.cpp" />
   </ItemGroup>
 </Project>

@@ -6,6 +6,7 @@ namespace tze
 {
 	struct TZE_API Transform_2DComponent
 	{
+		glm::vec2 _translation{};
 		glm::vec2 _scale{ 1.0f, 1.0f }; // default - no scaling 
 		float _rotation; // the degree of rotation in radians ( the rotation is counterclockwise )
 
@@ -34,12 +35,12 @@ namespace tze
 		
 		void run() override;
 
-		std::shared_ptr<Model> model;
-		glm::vec3 color;
-		Transform_2DComponent transform_2D;
+		std::shared_ptr<Model> _model;
+		glm::vec3 _color;
+		Transform_2DComponent _transform_2D;
 
 	private:
-		GameObject(id_t objId) : id(objId), transform_2D() {}
+		GameObject(id_t objId) : id(objId), _transform_2D() {}
 		id_t id;
 	};
 }

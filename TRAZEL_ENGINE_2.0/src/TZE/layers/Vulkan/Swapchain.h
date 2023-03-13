@@ -43,6 +43,8 @@ namespace tze
 		vk::Format& getFormat();
 		vk::Extent2D& getExtent();
 		std::vector<SwapchainFrame>& getFrames();
+		vk::SwapchainKHR& getSwapchain();
+
 	private:
 		// the function is responsible of creating the VULKAN swap chain object
 		void createSwapChain(const swapchainBundle& input);

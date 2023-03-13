@@ -8,6 +8,7 @@
 #include "layers/Vulkan/Swapchain.h"
 #include "layers/Vulkan/pipeline/Pipeline.h"
 #include "layers/Vulkan/Commands.h"
+#include "layers/Vulkan/Renderer.h"
 
 #define WINDOW_LAYER_INDEX 0
 #define INSTANCE_LAYER_INDEX 1
@@ -30,8 +31,6 @@ namespace tze
 		void appInit();
 		void run();
 
-		 void addObject(GameObject* gameObject);
-
 		vk::PhysicalDevice& getPhysicalDevice();
 		vk::Device& getLogicalDevice();
 		vk::SurfaceKHR& getSurface();
@@ -45,9 +44,9 @@ namespace tze
 		// vulkan:
 		Instance _instance;
 		Swapchain _swapchain;
-		std::vector<GameObject*> _gameObjects;
 		Pipeline _pipeline;
 		Commands commands;
+		Renderer _renderer;
 	};
 
 	// this will be defined in the client 

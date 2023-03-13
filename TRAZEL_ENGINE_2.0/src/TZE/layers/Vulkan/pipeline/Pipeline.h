@@ -36,7 +36,8 @@ namespace tze
 		void run() override;
 
 		vk::RenderPass& getRenderPass();
-
+		vk::Pipeline& getPipeline();
+		vk::PipelineLayout& getLayout();
 	private:
 		/// <summary>
 		/// function is getting a file name and base on the information in the file creating a vulkan shader modul
