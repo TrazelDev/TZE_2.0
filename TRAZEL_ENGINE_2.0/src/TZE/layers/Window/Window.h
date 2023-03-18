@@ -2,7 +2,6 @@
 #include "pch.h"
 #include "layers/Layer.h"
 
-
 namespace tze
 {
 	class Window : public Layer
@@ -30,7 +29,6 @@ namespace tze
 
 		void calculateFrameRate();
 
-		
 	private:
 		void buildGLFWWindow();
 
@@ -49,6 +47,4 @@ namespace tze
 		int _numFrames;
 		float _frameTime;
 	};
-
 }
-

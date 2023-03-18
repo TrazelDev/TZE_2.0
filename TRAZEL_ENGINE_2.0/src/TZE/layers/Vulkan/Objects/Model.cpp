@@ -9,6 +9,7 @@ tze::Model::Model(vk::PhysicalDevice& physicalDevice, vk::Device& logicalDevice,
 
 tze::Model::~Model()
 {
+	_logicalDevice.waitIdle();
 	_logicalDevice.destroyBuffer(_vertexBuffer, nullptr);
 	_logicalDevice.freeMemory(_vertexBufferMemory, nullptr);
 }
@@ -72,13 +73,13 @@ void tze::Model::createBuffer(const vk::DeviceSize& size, const vk::BufferUsageF
 	allocationInfo.sType = vk::StructureType::eMemoryAllocateInfo;
 	allocationInfo.allocationSize = memRequirements.size;
 	allocationInfo.memoryTypeIndex= findMemoryType(memRequirements.memoryTypeBits, properties);
-
-
+	
+	
 	if (_logicalDevice.allocateMemory(&allocationInfo, nullptr, &_vertexBufferMemory) != vk::Result::eSuccess)
 	{
 		TZE_ENGINE_ERR("failed to allocate memory in the gpu");
 	}
-
+	
 	_logicalDevice.bindBufferMemory(_vertexBuffer, _vertexBufferMemory, 0);
 }
 

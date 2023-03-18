@@ -15,7 +15,6 @@
 
 namespace tze
 {
-	
 	class TZE_API App
 	{
 	public:
@@ -49,8 +48,6 @@ namespace tze
 		Renderer _renderer;
 	};
 
-	// this will be defined in the client 
+	// this will be defined in the client
 	App* createApp();
-
 }
-

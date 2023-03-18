@@ -7,7 +7,6 @@ tze::Transform_2DComponent::Transform_2DComponent(const glm::vec2& scale, float 
 	_rotation = rotation;
 }
 
-
 tze::Transform_2DComponent::Transform_2DComponent(float rotation, const glm::vec2& scale)
 {
 	_scale = scale;
@@ -25,6 +24,14 @@ glm::mat2 tze::Transform_2DComponent::mat2()
 	return (rotationMatrix * scaleMatrix);
 }
 
+void tze::Transform_2DComponent::runChanges()
+{
+	if (_spin)
+	{
+		_rotation = glm::mod(_rotation + +0.0005f, glm::two_pi<float>());
+	}
+}
+
 tze::GameObject tze::GameObject::createGameObj()
 {
 	static id_t currId = 0;
@@ -39,5 +46,4 @@ tze::GameObject* tze::GameObject::p_createGameObj()
 
 void tze::GameObject::run()
 {
-
 }

@@ -5,7 +5,7 @@ namespace tze
 	class TZE_API Model
 	{
 	public:
-		struct Vertex
+		struct TZE_API Vertex
 		{
 			glm::vec2 _position;
 			glm::vec3 _color;

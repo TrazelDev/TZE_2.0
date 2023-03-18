@@ -40,12 +40,21 @@ tze::Swapchain::Swapchain(const swapchainBundle& input)
 
 tze::Swapchain::~Swapchain()
 {
+	for (SwapchainFrame& frame : _frames)
+	{
+		_logicalDevice.destroyImageView(frame.imageView);
+
+		// destroying all of the fences and semaphores
+		_logicalDevice.destroyFence(frame.inFlight);
+		_logicalDevice.destroySemaphore(frame.imageAvailable);
+		_logicalDevice.destroySemaphore(frame.renderFinished);		
+	}
+
 	_logicalDevice.destroySwapchainKHR();
 }
 
 void tze::Swapchain::run()
 {
-
 }
 
 vk::Format& tze::Swapchain::getFormat()
@@ -75,9 +84,6 @@ void tze::Swapchain::createSwapChain(const swapchainBundle& input)
 	std::vector<vk::PresentModeKHR> presentModes = _physicalDevice.getSurfacePresentModesKHR(_surface);;
 	SHOW_DATA(querySwapchainSupport(capabilities, formats, presentModes););
 
-
-
-
 	// choosing the format of the colors in the swapchain:
 	bool flag = true;
 	for (vk::SurfaceFormatKHR currFormat : formats)
@@ -95,7 +101,6 @@ void tze::Swapchain::createSwapChain(const swapchainBundle& input)
 		_format = formats[0];
 		TZE_ENGINE_WARN("the swapchain format that you wanted wasn't found so the first one is used");
 	}
-
 
 	// choosing a present mode: ( eFifo - present mode that insure that there will be no taring and displays the images in the order they came to the swapchain,
 	// eMailbox - similar present mode but if a new image came to the swap chain then the old one will be deleted this makes the application feel faster and insures less latency)
@@ -158,12 +163,11 @@ void tze::Swapchain::createSwapChain(const swapchainBundle& input)
 	}
 	catch (vk::SystemError err)
 	{
-
 		TZE_ENGINE_ERR("failed to create swapchain");
 	}
 }
 
-void tze::Swapchain::querySwapchainSupport(const vk::SurfaceCapabilitiesKHR& capabilities, 
+void tze::Swapchain::querySwapchainSupport(const vk::SurfaceCapabilitiesKHR& capabilities,
 	const std::vector<vk::SurfaceFormatKHR>& formats, std::vector<vk::PresentModeKHR> presentModes)
 {
 	std::cout << "swapChain can supported the following surface capabilities:\n";
@@ -213,7 +217,6 @@ void tze::Swapchain::querySwapchainSupport(const vk::SurfaceCapabilitiesKHR& cap
 		std::cout << "\t\t" << line << "\n";
 	}
 
-
 	for (vk::SurfaceFormatKHR supportedFormat : formats)
 	{
 		std::cout << "supported pixel format: " << vk::to_string(supportedFormat.format) << '\n';
@@ -257,4 +260,3 @@ vk::Semaphore tze::Swapchain::createSemaphore()
 		return nullptr;
 	}
 }
-

@@ -17,9 +17,7 @@ namespace tze
 			uint32_t _width, uint32_t height)
 			: _logicalDevice(logicalDevice), _physicalDevice(physicalDevice), _surface(surface), _indices(indices)
 		{
-
 		}
-
 	};
 
 	struct SwapchainFrame
@@ -31,7 +29,6 @@ namespace tze
 		vk::Semaphore imageAvailable, renderFinished;
 		vk::Fence inFlight;
 	};
-
 
 	class Swapchain : public Layer
 	{
@@ -50,7 +47,7 @@ namespace tze
 		void createSwapChain(const swapchainBundle& input);
 		void querySwapchainSupport(const vk::SurfaceCapabilitiesKHR& capabilities,
 			const std::vector<vk::SurfaceFormatKHR>& formats, std::vector<vk::PresentModeKHR> presentModes);
-		
+
 		// understand what it is:
 		vk::Fence createFence();
 		vk::Semaphore createSemaphore();
@@ -71,4 +68,3 @@ namespace tze
 		std::vector<SwapchainFrame> _frames;
 	};
 }
-

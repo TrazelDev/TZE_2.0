@@ -2,6 +2,9 @@
 #include "layers/Layer.h"
 #include "layers/Vulkan/vk_logging/vkLogging.h"
 
+
+
+
 namespace tze
 {
 	struct pipelineInput
@@ -11,11 +14,11 @@ namespace tze
 		vk::Extent2D& _swapchainExtent;
 
 		pipelineInput(vk::Device& logicalDevice, vk::Format& swapchainImageFormat, vk::Extent2D& swapchainExtent) :
-			_logicalDevice(logicalDevice),  _swapchainImageFormat(swapchainImageFormat), _swapchainExtent(swapchainExtent) {}
+			_logicalDevice(logicalDevice), _swapchainImageFormat(swapchainImageFormat), _swapchainExtent(swapchainExtent) {}
 	};
-	
+
 	/// <summary>
-	/// this is a struct that describes the data that is going to be transferred to the fragment shader 
+	/// this is a struct that describes the data that is going to be transferred to the fragment shader
 	/// </summary>
 	struct SimplePushConstantData
 	{
@@ -32,7 +35,6 @@ namespace tze
 			, const std::string& fragmentShaderPath = /*"src\\TZE\\layers\\Vulkan\\pipeline\\Shaders\\*/"fragment.spv");
 		~Pipeline();
 
-
 		void run() override;
 
 		vk::RenderPass& getRenderPass();
@@ -47,13 +49,13 @@ namespace tze
 		vk::ShaderModule createModule(const std::string& filename);
 
 		/// <summary>
-		/// function that is getting a file name and putting the char of the file into a vector of chars 
+		/// function that is getting a file name and putting the char of the file into a vector of chars
 		/// </summary>
 		/// <param name="filename">the name of the file we want to check</param>
 		/// <returns>the vector of chars that contains the info of the file</returns>
 		std::vector<char> readFile(const std::string& filename);
 
-		// this function is getting the logical device and creating a pipeline layout from it and returning it 
+		// this function is getting the logical device and creating a pipeline layout from it and returning it
 		// pipeline layout is a way to connect the pipeline shader stage to the other stages
 		vk::PipelineLayout makePipelineLayout();
 
@@ -72,5 +74,4 @@ namespace tze
 		vk::RenderPass _renderPass;
 		vk::Pipeline _graphicsPipeline;
 	};
-
 }

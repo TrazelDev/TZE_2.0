@@ -7,16 +7,16 @@
 
 namespace tze {
 	App::App()
-		: _window(), _instance(_window.getWindow()), 
+		: _window(), _instance(_window.getWindow()),
 		_width(_window.getWidth()), _height(_window.getWidth()),
-		_swapchain(*new swapchainBundle(*_instance.getLogicalDevice(), *_instance.getPhysicalDevice(), 
-			*_instance.getSurface(), *_instance.getQueueFamilies(), *_width, *_height)), 
+		_swapchain(*new swapchainBundle(*_instance.getLogicalDevice(), *_instance.getPhysicalDevice(),
+			*_instance.getSurface(), *_instance.getQueueFamilies(), *_width, *_height)),
 		_pipeline(*new pipelineInput(*_instance.getLogicalDevice(), _swapchain.getFormat(), _swapchain.getExtent())),
 		commands(*new CommandsInput(*_instance.getLogicalDevice(), *_instance.getPhysicalDevice(),
 			*_instance.getSurface(), _pipeline.getRenderPass(), _swapchain.getExtent(),
-			_swapchain.getFrames(), *_instance.getQueueFamilies())), 
+			_swapchain.getFrames(), *_instance.getQueueFamilies())),
 		_renderer(*new RendererInput(*_instance.getLogicalDevice(), _swapchain.getSwapchain(), _swapchain.getFrames(), _pipeline.getRenderPass(),
-			_swapchain.getExtent(), *_window.getWidth(), *_window.getHeight(), _pipeline.getPipeline(), _pipeline.getLayout(), *_instance.getQueueFamilies()))
+		_swapchain.getExtent(), *_window.getWidth(), *_window.getHeight(), _pipeline.getPipeline(), _pipeline.getLayout(), *_instance.getQueueFamilies()))
 	{
 		// pipelineInput input = pipelineInput(*_instance.getLogicalDevice(), _swapchain.getFormat(), _swapchain.getExtent());
 		/// Pipeline(input);
@@ -24,14 +24,11 @@ namespace tze {
 
 	App::~App()
 	{
-		std::cout << "gf";
 		// TODO: delete the layers
 	}
 
-
 	void App::appInit()
 	{
-
 	}
 
 	void App::run()
@@ -49,11 +46,9 @@ namespace tze {
 		TZE_ENGINE_INFO("Successfully closed the window");
 	}
 
-	
 	vk::PhysicalDevice& App::getPhysicalDevice()
 	{
-		return *_instance.getPhysicalDevice(); 
-
+		return *_instance.getPhysicalDevice();
 	}
 	vk::Device& App::getLogicalDevice()
 	{
@@ -69,7 +64,4 @@ namespace tze {
 	{
 		return *_instance.getQueueFamilies();
 	}
-
-	
-
 }

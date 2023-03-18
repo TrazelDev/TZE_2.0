@@ -14,7 +14,7 @@ namespace tze
 		QueueFamilies& _queueFamilies;
 
 		CommandsInput(vk::Device& logicalDevice, vk::PhysicalDevice& physicalDevice, vk::SurfaceKHR& surface,
-			vk::RenderPass& renderPass, vk::Extent2D& extent, std::vector<SwapchainFrame>& swapchainFrames, 
+			vk::RenderPass& renderPass, vk::Extent2D& extent, std::vector<SwapchainFrame>& swapchainFrames,
 			QueueFamilies& queueFamilies) :
 			_logicalDevice(logicalDevice), _physicalDevice(physicalDevice), _surface(surface), _renderPass(renderPass),
 			_extent(extent), _swapchainFrames(swapchainFrames), _queueFamilies(queueFamilies) { }
@@ -47,5 +47,4 @@ namespace tze
 		vk::CommandPool _commandPool;
 		vk::CommandBuffer _mainCommandBuffer;
 	};
-
 }

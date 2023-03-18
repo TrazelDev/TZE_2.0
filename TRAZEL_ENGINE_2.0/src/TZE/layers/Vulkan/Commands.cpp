@@ -11,7 +11,19 @@ tze::Commands::Commands(const CommandsInput& input) : _input(input)
 
 tze::Commands::~Commands()
 {
-	// _input._logicalDevice.destroyCommandPool(_commandPool);
+	_input._logicalDevice.waitIdle();
+
+	for (auto& frame : _input._swapchainFrames)
+	{
+		_input._logicalDevice.freeCommandBuffers(_commandPool, 1, &frame.commandBuffer);
+		_input._logicalDevice.destroyFramebuffer(frame.frameBuffer);
+	}
+
+	// Free the main command buffer
+	_input._logicalDevice.freeCommandBuffers(_commandPool, 1, &_mainCommandBuffer);
+
+
+	_input._logicalDevice.destroyCommandPool(_commandPool);
 }
 
 void tze::Commands::run()

@@ -6,12 +6,15 @@ tze::Renderer::Renderer(const RendererInput& input) : _input(input)
 	_graphicsQueue = _input._logicalDevice.getQueue(_input._indices.graphicsIndex.value(), 0);
 	_presentQueue = _input._logicalDevice.getQueue(_input._indices.presentIndex.value(), 0);
 	_maxFramesInFlight = uint32_t(_input._swapchainFrames.size());
-	_frameNum  = 0;
+	_frameNum = 0;
 }
 
 tze::Renderer::~Renderer()
 {
-
+	for (auto obj : _gameObjects)
+	{
+		delete obj;
+	}
 }
 
 void tze::Renderer::addGameObjects(GameObject* obj)
@@ -31,44 +34,44 @@ void tze::Renderer::run()
 	}
 
 	vk::CommandBuffer commandBuffer = _input._swapchainFrames[_frameNum].commandBuffer;
-
+	
 	commandBuffer.reset();
 	recordDrawCommands(commandBuffer, imageIndex);
 	
 	vk::SubmitInfo submitInfo = {};
-
+	
 	vk::Semaphore waitSemaphores[] = { _input._swapchainFrames[_frameNum].imageAvailable };
 	vk::PipelineStageFlags waitStages[] = { vk::PipelineStageFlagBits::eColorAttachmentOutput };
 	submitInfo.waitSemaphoreCount = 1;
 	submitInfo.pWaitSemaphores = waitSemaphores;
 	submitInfo.pWaitDstStageMask = waitStages;
-
+	
 	submitInfo.commandBufferCount = 1;
 	submitInfo.pCommandBuffers = &commandBuffer;
-
+	
 	vk::Semaphore signalSemaphores[] = { _input._swapchainFrames[_frameNum].renderFinished };
 	submitInfo.signalSemaphoreCount = 1;
 	submitInfo.pSignalSemaphores = signalSemaphores;
-
+	
 	try {
 		_graphicsQueue.submit(submitInfo, _input._swapchainFrames[_frameNum].inFlight);
 	}
 	catch (vk::SystemError err) {
 		TZE_ENGINE_ERR("failed to submit draw command buffer!");
 	}
-
-
+	
 	vk::PresentInfoKHR presentInfo = {};
 	presentInfo.waitSemaphoreCount = 1;
 	presentInfo.pWaitSemaphores = signalSemaphores;
-
+	
 	vk::SwapchainKHR swapChains[] = { _input._swapchain };
 	presentInfo.swapchainCount = 1;
 	presentInfo.pSwapchains = swapChains;
-
+	
 	presentInfo.pImageIndices = &imageIndex;
-
-
+	
+	_frameNum = (_frameNum + 1) % _maxFramesInFlight;
+	_presentQueue.presentKHR(presentInfo);
 	////////////////////////
 	// uint32_t _frameNum 32_t = _frameNum ;
 	// VkResult result1 = vkAcquireNextImageKHR
@@ -92,9 +95,6 @@ void tze::Renderer::run()
 	// 	recreate_swapchain();
 	// 	return;
 	// }
-	_frameNum  = (_frameNum  + 1) % _maxFramesInFlight;
-	_presentQueue.presentKHR(presentInfo);
-
 
 	//const auto a = VkPresentInfoKHR(presentInfo);
 	//result1 = vkQueuePresentKHR(presentQueue, &a);
@@ -112,7 +112,7 @@ void tze::Renderer::recordDrawCommands(const vk::CommandBuffer& commandBuffer, u
 	{
 		TZE_ENGINE_ERR("failed to begin recording command buffer");
 	}
-
+	
 	vk::RenderPassBeginInfo renderpassInfo = {};
 	renderpassInfo.renderPass = _input._renderpass;
 	renderpassInfo.framebuffer = _input._swapchainFrames[imageIndex].frameBuffer;
@@ -126,19 +126,18 @@ void tze::Renderer::recordDrawCommands(const vk::CommandBuffer& commandBuffer, u
 
 	commandBuffer.beginRenderPass(&renderpassInfo, vk::SubpassContents::eInline);
 
-
 	// viewport and scissor:
-	VkViewport viewport = {};
+	vk::Viewport viewport = {};
 	viewport.x = 0.0f;
 	viewport.y = 0.0f;
 	viewport.width = _input._width;
 	viewport.height = _input._height;
 	viewport.minDepth = 0.0f;
 	viewport.maxDepth = 1.0f;
-	VkRect2D scissor{ {0, 0}, {_input._width, _input._height} };
+	vk::Rect2D scissor{ {0, 0}, {_input._width, _input._height} };
 
-	vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
-	vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
+	commandBuffer.setViewport(0, 1, &viewport);
+	commandBuffer.setScissor(0, 1, &scissor);
 
 
 	commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, _input._pipeline);
@@ -155,28 +154,19 @@ void tze::Renderer::recordDrawCommands(const vk::CommandBuffer& commandBuffer, u
 	}
 }
 
-
-
-void tze::Renderer::renderGameObj(vk::CommandBuffer commandBuffer)
+void tze::Renderer::renderGameObj(const vk::CommandBuffer& commandBuffer)
 {
 	for (GameObject* gameObject : _gameObjects)
 	{
-		gameObject->_transform_2D._rotation = glm::mod(gameObject->_transform_2D._rotation + 0.0005f, glm::two_pi<float>());
+		gameObject->_transform_2D.runChanges();
 
 		SimplePushConstantData push;
 		push.offset = gameObject->_transform_2D._translation;
 		push.color = gameObject->_color;
 		push.transform = gameObject->_transform_2D.mat2();
 
-		vkCmdPushConstants
-		(
-			commandBuffer,
-			_input._layout,
-			VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
-			0,
-			sizeof(SimplePushConstantData),
-			&push
-		);
+		commandBuffer.pushConstants(_input._layout, vk::ShaderStageFlagBits::eVertex |
+			vk::ShaderStageFlagBits::eFragment, 0, sizeof(SimplePushConstantData), &push);
 
 		gameObject->_model->bind(commandBuffer);
 		gameObject->_model->draw(commandBuffer);

@@ -41,18 +41,23 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 
-
 // A way to make only debugging features:
+#pragma region DEBUG_CMD
 #ifndef CLIENT_MODE
-	#define DEBUG_CMD(x) x
+#define DEBUG_CMD(x) x
 #else
-	#define DEBUG_CMD(x)
+#define DEBUG_CMD(x)
 #endif
+#pragma endregion
 
 // A way for me to tell for things that are plain data and I have the option to toggle here if I want to see it or not:
 #define WANT_TO_SHOW_DATA
 #ifdef WANT_TO_SHOW_DATA
+#pragma region SHOW_DATA
 #define SHOW_DATA(x) x
+#pragma endregion
 #else
+#pragma region SHOW_DATA
 #define SHOW_DATA(x)
+#pragma endregion
 #endif

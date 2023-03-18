@@ -2,7 +2,6 @@
 #include "Pipeline.h"
 #include "layers/Vulkan/Objects/Model.h"
 
-
 tze::Pipeline::Pipeline(const pipelineInput& input,
 	const std::string& vertexShaderPath, const std::string& fragmentShaderPath) :
 	_input(input)
@@ -14,12 +13,12 @@ tze::Pipeline::Pipeline(const pipelineInput& input,
 	vk::PipelineVertexInputStateCreateInfo vertexInputInfo = {};
 	vk::PipelineInputAssemblyStateCreateInfo inputAssemblyInfo = {};
 	std::vector<vk::PipelineShaderStageCreateInfo> shaderStages;
-	vk::ShaderModule vertexShader;
 	vk::PipelineShaderStageCreateInfo vertexShaderInfo;
 	vk::Viewport viewport = {};
 	vk::Rect2D scissor = {};
 	vk::PipelineViewportStateCreateInfo viewportState = {};
 	vk::PipelineRasterizationStateCreateInfo rasterizer = {};
+	vk::ShaderModule vertexShader;
 	vk::ShaderModule fragmentShader;
 	vk::PipelineShaderStageCreateInfo fragmentShaderInfo = {};
 	vk::PipelineMultisampleStateCreateInfo multisampling = {};
@@ -47,7 +46,6 @@ tze::Pipeline::Pipeline(const pipelineInput& input,
 	inputAssemblyInfo.flags = vk::PipelineInputAssemblyStateCreateFlags();
 	inputAssemblyInfo.topology = vk::PrimitiveTopology::eTriangleList;
 
-
 	vertexShader = createModule(vertexShaderPath);
 	vertexShaderInfo.flags = vk::PipelineShaderStageCreateFlags();
 	vertexShaderInfo.stage = vk::ShaderStageFlagBits::eVertex;
@@ -67,7 +65,7 @@ tze::Pipeline::Pipeline(const pipelineInput& input,
 	scissor.offset.x = 0.0f;
 	scissor.offset.y = 0.0f;
 	scissor.extent = input._swapchainExtent;
-	
+
 	// creating a view port states because there could be more than one viewport on the screen:
 	viewportState.flags = vk::PipelineViewportStateCreateFlags();
 	viewportState.viewportCount = 1;
@@ -75,7 +73,7 @@ tze::Pipeline::Pipeline(const pipelineInput& input,
 	viewportState.scissorCount = 1;
 	viewportState.pScissors = nullptr;
 
-	// rasterizer creation: 
+	// rasterizer creation:
 	// here are some properties to know for the future (chatGpt credit)
 	/*
 	Polygon mode: Determines how polygons are rendered. The options are Fill (default), Line, and Point.
@@ -99,7 +97,7 @@ tze::Pipeline::Pipeline(const pipelineInput& input,
 	rasterizer.cullMode = vk::CullModeFlagBits::eBack;
 	rasterizer.frontFace = vk::FrontFace::eClockwise;
 	rasterizer.depthBiasEnable = VK_FALSE;
-	
+
 	// creation of fragment shader:
 	fragmentShader = createModule(fragmentShaderPath);
 	fragmentShaderInfo.flags = vk::PipelineShaderStageCreateFlags();
@@ -108,7 +106,7 @@ tze::Pipeline::Pipeline(const pipelineInput& input,
 	fragmentShaderInfo.pName = "main";
 	shaderStages.push_back(fragmentShaderInfo);
 
-	// multisampling: ( a technique used to fix curved or diagonal lines to make them smoother by taking multiple pixels from an area and 
+	// multisampling: ( a technique used to fix curved or diagonal lines to make them smoother by taking multiple pixels from an area and
 	// averaging them out to make it smoother as I said )
 	multisampling.flags = vk::PipelineMultisampleStateCreateFlags();
 	multisampling.sampleShadingEnable = VK_FALSE;
@@ -125,18 +123,17 @@ tze::Pipeline::Pipeline(const pipelineInput& input,
 	colorBlending.blendConstants[1] = 0.0f;
 	colorBlending.blendConstants[2] = 0.0f;
 	colorBlending.blendConstants[3] = 0.0f;
-	
+
 	// dynamic create info:
 	dynamicStateCreateInfo.sType = vk::StructureType::ePipelineDynamicStateCreateInfo;
 	dynamicStateCreateInfo.pDynamicStates = dynamicStates;
 	dynamicStateCreateInfo.dynamicStateCount = /*sizeof(dynamicStates)*/ 2;
 	pipelineInfo.pDynamicState = &dynamicStateCreateInfo;
-	
 
 	_layout = makePipelineLayout();
 	_renderPass = makeRenderPass();
 
-	// putting the info inside of the pipeline creation info structure 
+	// putting the info inside of the pipeline creation info structure
 	pipelineInfo.flags = vk::PipelineCreateFlags();
 	pipelineInfo.pVertexInputState = &vertexInputInfo;
 	pipelineInfo.pInputAssemblyState = &inputAssemblyInfo;
@@ -149,7 +146,7 @@ tze::Pipeline::Pipeline(const pipelineInput& input,
 	pipelineInfo.layout = _layout;
 	pipelineInfo.renderPass = _renderPass;
 	pipelineInfo.basePipelineHandle = nullptr;
-	
+
 	try
 	{
 		auto pair = _input._logicalDevice.createGraphicsPipeline(nullptr, pipelineInfo);
@@ -174,10 +171,10 @@ tze::Pipeline::Pipeline(const pipelineInput& input,
 
 tze::Pipeline::~Pipeline()
 {
-	// _input._logicalDevice.waitIdle();
-	// _input._logicalDevice.destroyPipeline(_graphicsPipeline);
-	// _input._logicalDevice.destroyPipelineLayout(_layout);
-	// _input._logicalDevice.destroyRenderPass(_renderPass);
+	_input._logicalDevice.waitIdle();
+	_input._logicalDevice.destroyPipeline(_graphicsPipeline);
+	_input._logicalDevice.destroyPipelineLayout(_layout);
+	_input._logicalDevice.destroyRenderPass(_renderPass);
 }
 
 void tze::Pipeline::run()
@@ -223,15 +220,15 @@ vk::ShaderModule tze::Pipeline::createModule(const std::string& filename)
 std::vector<char> tze::Pipeline::readFile(const std::string& filename)
 {
 	std::ifstream file(filename, std::ios::ate | std::ios::binary);
-	
+
 	if (!file.is_open())
 	{
 		TZE_ENGINE_ERR(std::string("failed to load \"") + filename + "\"");
 	}
 
 	// reading the content of the file into the vector of chars called buffer:
-	size_t fileSize{ 
-		static_cast<size_t>(file.tellg()) 
+	size_t fileSize{
+		static_cast<size_t>(file.tellg())
 	};
 	std::vector<char> buffer(fileSize);
 	file.seekg(0);

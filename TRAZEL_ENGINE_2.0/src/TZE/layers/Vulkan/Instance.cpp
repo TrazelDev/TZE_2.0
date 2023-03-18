@@ -5,25 +5,25 @@
 tze::Instance::Instance(GLFWwindow* window, const std::string& title)
 {
 	createInstance(title); // creating the instance to the VULKAN API
-	
-	_dldi = vk::DispatchLoaderDynamic(_instance, vkGetInstanceProcAddr); // creating the dynamic dispatch loader which is in charge of taking the VULKAN commands from the gpu
-	DEBUG_CMD(tze::makeDebugMessenger(_instance, _dldi);); // making a debug messenger if this is not a CLIENT_MODE to help debug the application in a easier way
 
-	// creating c style surface because the following function takes a c style VULKAN surface and I don't know another way to do it 
- 	VkSurfaceKHR CStyleSurface;
- 	if (glfwCreateWindowSurface(_instance, window, nullptr, &CStyleSurface) != VK_SUCCESS)
- 	{
- 		TZE_ENGINE_ERR("failed to abstract the glfw surface for Vulkan.\n");
- 	}
+	_dldi = vk::DispatchLoaderDynamic(_instance, vkGetInstanceProcAddr); // creating the dynamic dispatch loader which is in charge of taking the VULKAN commands from the gpu
+	DEBUG_CMD(_debugMessenger = tze::makeDebugMessenger(_instance, _dldi);); // making a debug messenger if this is not a CLIENT_MODE to help debug the application in a easier way
+	
+	// creating c style surface because the following function takes a c style VULKAN surface and I don't know another way to do it
+	VkSurfaceKHR CStyleSurface;
+	if (glfwCreateWindowSurface(_instance, window, nullptr, &CStyleSurface) != VK_SUCCESS)
+	{
+		TZE_ENGINE_ERR("failed to abstract the glfw surface for Vulkan.\n");
+	}
 	else
 	{
 		TZE_ENGINE_INFO("Successfully to abstracted the glfw surface for Vulkan.");
 	}
 	_surface = CStyleSurface;
-
+	
 	// choosing the physical device for the application usage:
 	choosePhysicalDevice();
-
+	
 	// creating a logical device and finding out if the physical device that has been chosen is supporting the graphics and presenting queues
 	createLogicalDevice();
 }
@@ -31,9 +31,9 @@ tze::Instance::Instance(GLFWwindow* window, const std::string& title)
 tze::Instance::~Instance()
 {
 	_logicalDevice.destroy();
-
 	_instance.destroySurfaceKHR(_surface);
-	DEBUG_CMD(_instance.destroyDebugUtilsMessengerEXT(_debugMessenger, nullptr, _dldi);)
+	
+	DEBUG_CMD(_instance.destroyDebugUtilsMessengerEXT(_debugMessenger, nullptr, _dldi););
 	_instance.destroy();
 }
 
@@ -61,7 +61,6 @@ tze::QueueFamilies* tze::Instance::getQueueFamilies()
 	return &_indices;
 }
 
-
 bool tze::Instance::supported(std::vector<const char*> extensions, std::vector<const char*>& layers)
 {
 	std::vector<vk::ExtensionProperties> supportedExtensions = vk::enumerateInstanceExtensionProperties();
@@ -70,10 +69,10 @@ bool tze::Instance::supported(std::vector<const char*> extensions, std::vector<c
 	SHOW_DATA
 	(
 		std::cout << "Device can support the following extensions:\n";
-		for (vk::ExtensionProperties supportedExtension : supportedExtensions)
-		{
-			std::cout << '\t' << supportedExtension.extensionName << '\n';
-		}
+	for (vk::ExtensionProperties supportedExtension : supportedExtensions)
+	{
+		std::cout << '\t' << supportedExtension.extensionName << '\n';
+	}
 	);
 
 	// checking extension support:
@@ -86,7 +85,7 @@ bool tze::Instance::supported(std::vector<const char*> extensions, std::vector<c
 			if (strcmp(extension, supportedExtention.extensionName) == 0)
 			{
 				found = true;
-				
+
 				SHOW_DATA
 				(
 					TZE_ENGINE_INFO(std::string("Extension \"") + extension + "\" is supported!\n");
@@ -106,10 +105,10 @@ bool tze::Instance::supported(std::vector<const char*> extensions, std::vector<c
 	SHOW_DATA
 	(
 		std::cout << "device can support the following layers:\n";
-		for (vk::LayerProperties supportedLayer : supportedLayers)
-		{
-			std::cout << '\t' << supportedLayer.layerName << '\n';
-		}
+	for (vk::LayerProperties supportedLayer : supportedLayers)
+	{
+		std::cout << '\t' << supportedLayer.layerName << '\n';
+	}
 	);
 
 	// check layer support
@@ -205,7 +204,7 @@ void tze::Instance::choosePhysicalDevice()
 	for (const vk::PhysicalDevice& device : avalibleDevices)
 	{
 		SHOW_DATA(logDeviceProperties(device););
-		
+
 		if (checkPhysicalDevice(device))
 		{
 			TZE_ENGINE_INFO("Device supports the requested extensions!\n");
@@ -224,24 +223,22 @@ void tze::Instance::choosePhysicalDevice()
 bool tze::Instance::checkPhysicalDevice(const vk::PhysicalDevice& device) const
 {
 	// a device is suitable if it can present to the screen, is support the swapchain extension
-	const std::vector<const char*> requestedExtentions = 
-	{ 
-		VK_KHR_SWAPCHAIN_EXTENSION_NAME 
+	const std::vector<const char*> requestedExtentions =
+	{
+		VK_KHR_SWAPCHAIN_EXTENSION_NAME
 	};
-
 
 	// this printing the requested extensions for the physical device ( probably gpu)
 	SHOW_DATA
 	(
 		std::cout << "we are requesting device extensions:\n";
-		for (const char* extention : requestedExtentions)
-		{
-			std::cout << "\t\"" << extention << "\"\n";
-		}
+	for (const char* extention : requestedExtentions)
+	{
+		std::cout << "\t\"" << extention << "\"\n";
+	}
 	)
 
-
-	return checkDeviceExtensionsSupport(device, requestedExtentions);
+		return checkDeviceExtensionsSupport(device, requestedExtentions);
 }
 
 bool tze::Instance::checkDeviceExtensionsSupport(const vk::PhysicalDevice& device, const std::vector<const char*>& requestedExtensions) const
@@ -255,7 +252,7 @@ bool tze::Instance::checkDeviceExtensionsSupport(const vk::PhysicalDevice& devic
 	{
 		SHOW_DATA(std::cout << "\t\"" << extention.extensionName << "\"\n";);
 
-		// if this extensions is one the extensions that the device needs to support than removing it from the set of requested extensions 
+		// if this extensions is one the extensions that the device needs to support than removing it from the set of requested extensions
 		requiredExtentions.erase(extention.extensionName);
 	}
 
@@ -342,7 +339,7 @@ void tze::Instance::checkAvailableQueues()
 			SHOW_DATA(TZE_ENGINE_INFO(std::string("Queue family ") + std::to_string(index) + " is suitable for graphics drawing and rendering"););
 		}
 
-		// checking if it supporting the the presenting queue commands ( here we are using the surface command because it is not enough if the physical supports it) 
+		// checking if it supporting the the presenting queue commands ( here we are using the surface command because it is not enough if the physical supports it)
 		if (_physicalDevice.getSurfaceSupportKHR(index, _surface))
 		{
 			_indices.presentIndex = index;
@@ -362,8 +359,3 @@ void tze::Instance::checkAvailableQueues()
 
 	TZE_ENGINE_ERR("physical device is not supporting the necessary necessity");
 }
-
-
-
-
-

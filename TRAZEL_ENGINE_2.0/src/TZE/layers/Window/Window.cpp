@@ -72,16 +72,15 @@ void tze::Window::buildGLFWWindow()
 		TZE_ENGINE_ERR("Error initializing GLFW");
 	}
 
-
-	// no default rendering client VULKAN will be hooked up later on 
+	// no default rendering client VULKAN will be hooked up later on
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
 	// resizing breaks the swapChain so it will be disabled for now
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-	_window = glfwCreateWindow(_width, _height, _title.c_str(), nullptr, nullptr);  
+	_window = glfwCreateWindow(_width, _height, _title.c_str(), nullptr, nullptr);
 	if (!_window)
 	{
 		TZE_ENGINE_ERR("Failed to create the GLFW window variable");
 	}
-}	
+}
