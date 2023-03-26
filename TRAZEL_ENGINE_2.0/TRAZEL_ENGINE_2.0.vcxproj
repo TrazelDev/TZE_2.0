@@ -93,7 +93,7 @@
       <ImportLibrary>..\bin\Debug-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST third_party_extentions\glfw\lib-vc2022\glfw3.lib\ (xcopy /Q /E /Y /I third_party_extentions\glfw\lib-vc2022\glfw3.lib bin\Debug-windows-x86_64\Clientgdgd &gt; nul) ELSE (xcopy /Q /Y /I third_party_extentions\glfw\lib-vc2022\glfw3.lib bin\Debug-windows-x86_64\Clientgdgd &gt; nul)
+      <Command>IF EXIST third_party_extentions\glfw\lib-vc2022\glfw3.lib\ (xcopy /Q /E /Y /I third_party_extentions\glfw\lib-vc2022\glfw3.lib bin\Debug-windows-x86_64\Client &gt; nul) ELSE (xcopy /Q /Y /I third_party_extentions\glfw\lib-vc2022\glfw3.lib bin\Debug-windows-x86_64\Client &gt; nul)
 IF EXIST ..\bin\Debug-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll ..\bin\Debug-windows-x86_64\Client &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll ..\bin\Debug-windows-x86_64\Client &gt; nul)
 $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\shader.frag -o $(ProjectDir)..\Client\fragment.spv
 $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\shader.vert -o$(ProjectDir)..\Client\vertex.spv</Command>
@@ -123,7 +123,7 @@ $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\T
       <ImportLibrary>..\bin\Release-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST third_party_extentions\glfw\lib-vc2022\glfw3.lib\ (xcopy /Q /E /Y /I third_party_extentions\glfw\lib-vc2022\glfw3.lib bin\Release-windows-x86_64\Clientgdgd &gt; nul) ELSE (xcopy /Q /Y /I third_party_extentions\glfw\lib-vc2022\glfw3.lib bin\Release-windows-x86_64\Clientgdgd &gt; nul)
+      <Command>IF EXIST third_party_extentions\glfw\lib-vc2022\glfw3.lib\ (xcopy /Q /E /Y /I third_party_extentions\glfw\lib-vc2022\glfw3.lib bin\Release-windows-x86_64\Client &gt; nul) ELSE (xcopy /Q /Y /I third_party_extentions\glfw\lib-vc2022\glfw3.lib bin\Release-windows-x86_64\Client &gt; nul)
 IF EXIST ..\bin\Release-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll ..\bin\Release-windows-x86_64\Client &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll ..\bin\Release-windows-x86_64\Client &gt; nul)
 $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\shader.frag -o $(ProjectDir)..\Client\fragment.spv
 $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\shader.vert -o$(ProjectDir)..\Client\vertex.spv</Command>
@@ -153,14 +153,13 @@ $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\T
       <ImportLibrary>..\bin\Client-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST third_party_extentions\glfw\lib-vc2022\glfw3.lib\ (xcopy /Q /E /Y /I third_party_extentions\glfw\lib-vc2022\glfw3.lib bin\Client-windows-x86_64\Clientgdgd &gt; nul) ELSE (xcopy /Q /Y /I third_party_extentions\glfw\lib-vc2022\glfw3.lib bin\Client-windows-x86_64\Clientgdgd &gt; nul)
+      <Command>IF EXIST third_party_extentions\glfw\lib-vc2022\glfw3.lib\ (xcopy /Q /E /Y /I third_party_extentions\glfw\lib-vc2022\glfw3.lib bin\Client-windows-x86_64\Client &gt; nul) ELSE (xcopy /Q /Y /I third_party_extentions\glfw\lib-vc2022\glfw3.lib bin\Client-windows-x86_64\Client &gt; nul)
 IF EXIST ..\bin\Client-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll\ (xcopy /Q /E /Y /I ..\bin\Client-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll ..\bin\Client-windows-x86_64\Client &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Client-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll ..\bin\Client-windows-x86_64\Client &gt; nul)
 $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\shader.frag -o $(ProjectDir)..\Client\fragment.spv
 $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\shader.vert -o$(ProjectDir)..\Client\vertex.spv</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\TZE\layers\Vulkan\Renderer.h" />
     <ClInclude Include="src\TZE.h" />
     <ClInclude Include="src\TZE\App.h" />
     <ClInclude Include="src\TZE\Core.h" />
@@ -170,6 +169,7 @@ $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\T
     <ClInclude Include="src\TZE\layers\Vulkan\Instance.h" />
     <ClInclude Include="src\TZE\layers\Vulkan\Objects\GameObj.h" />
     <ClInclude Include="src\TZE\layers\Vulkan\Objects\Model.h" />
+    <ClInclude Include="src\TZE\layers\Vulkan\Renderer.h" />
     <ClInclude Include="src\TZE\layers\Vulkan\Swapchain.h" />
     <ClInclude Include="src\TZE\layers\Vulkan\pipeline\Pipeline.h" />
     <ClInclude Include="src\TZE\layers\Vulkan\vk_logging\vkLogging.h" />
@@ -178,12 +178,12 @@ $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\T
     <ClInclude Include="src\TZE\pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\TZE\layers\Vulkan\Renderer.cpp" />
     <ClCompile Include="src\TZE\App.cpp" />
     <ClCompile Include="src\TZE\layers\Vulkan\Commands.cpp" />
     <ClCompile Include="src\TZE\layers\Vulkan\Instance.cpp" />
     <ClCompile Include="src\TZE\layers\Vulkan\Objects\GameObj.cpp" />
     <ClCompile Include="src\TZE\layers\Vulkan\Objects\Model.cpp" />
+    <ClCompile Include="src\TZE\layers\Vulkan\Renderer.cpp" />
     <ClCompile Include="src\TZE\layers\Vulkan\Swapchain.cpp" />
     <ClCompile Include="src\TZE\layers\Vulkan\pipeline\Pipeline.cpp" />
     <ClCompile Include="src\TZE\layers\Vulkan\vk_logging\vkLogging.cpp" />
