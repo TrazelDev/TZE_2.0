@@ -162,9 +162,6 @@ void tze::Renderer::renderGameObj(const vk::CommandBuffer& commandBuffer)
 
 void tze::Renderer::recreationOfWindowSize()
 {
-	static int i = 0;
-	i++;
-	std::cout << "the count is: "  << i << std::endl;
 	bool wasMin = false; // var that says if the window was resized or minimized 
 
 	while (*_input._window.getHeight() == 0 || *_input._window.getWidth() == 0)
@@ -173,10 +170,8 @@ void tze::Renderer::recreationOfWindowSize()
 		wasMin = true;
 	}
 	
-	if (!wasMin)
-	{
-		_input._swapchain.recreateSwapChain(*_input._window.getWidth(), *_input._window.getHeight());
-		_input._pipeline.recreatePipeline(_input._swapchain.getExtent());
-		_input._window.resetWindowResizedFlag();
-	}
+	_input._swapchain.recreateSwapChain(*_input._window.getWidth(), *_input._window.getHeight());
+	_input._pipeline.recreatePipeline(_input._swapchain.getExtent());
+	_input._commands.recreateBuffers();
+	_input._window.resetWindowResizedFlag();
 }

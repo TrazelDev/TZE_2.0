@@ -41,11 +41,11 @@ namespace tze
 		uint32_t* _height;
 
 		// vulkan:
-		Instance _instance;
+		Instance  _instance;
 		Swapchain _swapchain;
-		Pipeline _pipeline;
-		Commands commands;
-		Renderer _renderer;
+		Pipeline  _pipeline;
+		Commands  _commands;
+		Renderer  _renderer;
 	};
 
 	// this will be defined in the client

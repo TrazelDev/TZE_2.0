@@ -200,6 +200,8 @@ void tze::Swapchain::querySwapchainSupport(const vk::SurfaceCapabilitiesKHR& cap
 
 void tze::Swapchain::makeExtent(uint32_t width, uint32_t height)
 {
+	_capabilities = _physicalDevice.getSurfaceCapabilitiesKHR(_surface);
+
 	// checking what should be the extent:
 	if (_capabilities.currentExtent.width != UINT32_MAX)
 	{

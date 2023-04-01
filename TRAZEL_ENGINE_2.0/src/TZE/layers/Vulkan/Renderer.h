@@ -3,6 +3,7 @@
 #include "Objects/GameObj.h"
 #include "pipeline/Pipeline.h"
 #include "layers/Window/Window.h"
+#include "Commands.h"
 
 namespace tze
 {
@@ -13,23 +14,24 @@ namespace tze
 		Window& _window;
 		Pipeline& _pipeline;
 		Swapchain& _swapchain;
+		Commands& _commands;
 
 		RendererInput(
 			vk::Device& logicalDevice,
 			QueueFamilies& indices,
 			Window& window,
 			Swapchain& swapchain,
-			Pipeline& pipeline
+			Pipeline& pipeline,
+			Commands& commands
 		) 
 			:
 			_logicalDevice(logicalDevice),
 			_swapchain(swapchain),
 			_pipeline(pipeline),
 			_window(window),
-			_indices(indices)
-		{ 
-			
-		}
+			_indices(indices),
+			_commands(commands)
+		{ }
 	};
 
 	class TZE_API Renderer

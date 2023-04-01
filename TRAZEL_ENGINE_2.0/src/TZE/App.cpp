@@ -12,10 +12,9 @@ namespace tze {
 		_swapchain(*new swapchainBundle(*_instance.getLogicalDevice(), *_instance.getPhysicalDevice(),
 			*_instance.getSurface(), *_instance.getQueueFamilies(), *_width, *_height)),
 		_pipeline(*new pipelineInput(*_instance.getLogicalDevice(), _swapchain.getFormat(), _swapchain.getExtent())),
-		commands(*new CommandsInput(*_instance.getLogicalDevice(), *_instance.getPhysicalDevice(),
-			*_instance.getSurface(), _pipeline.getRenderPass(), _swapchain.getExtent(),
-			_swapchain.getFrames(), *_instance.getQueueFamilies())),
-		_renderer(*new RendererInput(*_instance.getLogicalDevice(), *_instance.getQueueFamilies(), _window, _swapchain, _pipeline))
+		_commands(*new CommandsInput(*_instance.getLogicalDevice(), *_instance.getPhysicalDevice(),
+			*_instance.getSurface(), *_instance.getQueueFamilies(), _pipeline, _swapchain)),
+		_renderer(*new RendererInput(*_instance.getLogicalDevice(), *_instance.getQueueFamilies(), _window, _swapchain, _pipeline, _commands))
 	{
 
 	}
@@ -36,8 +35,6 @@ namespace tze {
 		while (!*closingFlag)
 		{
 			_window.run();
-			// _instance.run();
-			// _swapchain.run();
 			_renderer.run();
 		}
 

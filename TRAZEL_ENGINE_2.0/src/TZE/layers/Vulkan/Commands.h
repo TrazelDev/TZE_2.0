@@ -1,5 +1,6 @@
 #pragma once
 #include "Swapchain.h"
+#include "Pipeline/Pipeline.h"
 
 namespace tze
 {
@@ -8,16 +9,14 @@ namespace tze
 		vk::Device& _logicalDevice;
 		vk::PhysicalDevice& _physicalDevice;
 		vk::SurfaceKHR& _surface;
-		vk::RenderPass& _renderPass;
-		vk::Extent2D _extent;
-		std::vector<SwapchainFrame>& _swapchainFrames;
+		Pipeline& _pipeline;
 		QueueFamilies& _queueFamilies;
+		Swapchain& _swapchain;
 
-		CommandsInput(vk::Device& logicalDevice, vk::PhysicalDevice& physicalDevice, vk::SurfaceKHR& surface,
-			vk::RenderPass& renderPass, vk::Extent2D& extent, std::vector<SwapchainFrame>& swapchainFrames,
-			QueueFamilies& queueFamilies) :
-			_logicalDevice(logicalDevice), _physicalDevice(physicalDevice), _surface(surface), _renderPass(renderPass),
-			_extent(extent), _swapchainFrames(swapchainFrames), _queueFamilies(queueFamilies) { }
+		CommandsInput(vk::Device& logicalDevice, vk::PhysicalDevice& physicalDevice, vk::SurfaceKHR& surface, 
+			QueueFamilies& queueFamilies, Pipeline& pipeline, Swapchain& swapchain) :
+			_logicalDevice(logicalDevice), _physicalDevice(physicalDevice), _surface(surface), _pipeline(pipeline),
+			_swapchain(swapchain), _queueFamilies(queueFamilies) { }
 	};
 
 	class Commands
@@ -27,6 +26,11 @@ namespace tze
 		~Commands();
 
 		void run();
+
+		/// <summary>
+		/// this function is recreating both the frame and command buffer that assigned for each frame 
+		/// </summary>
+		void recreateBuffers();
 	private:
 		/// <summary>
 		/// function that create frameBuffers a framebuffer is a collection of images that specify the rendering targets for the renderPass
@@ -42,6 +46,12 @@ namespace tze
 		/// creating the command buffers
 		/// </summary>
 		void createCommandBuffers();
+
+		/// <summary>
+		/// this function is destroying both the frame buffers and command buffers that are allocated to each frame
+		/// </summary>
+		void destroyBuffers();
+
 
 		const CommandsInput& _input;
 		vk::CommandPool _commandPool;
