@@ -15,7 +15,7 @@ namespace tze {
 		commands(*new CommandsInput(*_instance.getLogicalDevice(), *_instance.getPhysicalDevice(),
 			*_instance.getSurface(), _pipeline.getRenderPass(), _swapchain.getExtent(),
 			_swapchain.getFrames(), *_instance.getQueueFamilies())),
-		_renderer(*new RendererInput(*_window.getWidth(), *_window.getHeight(), *_instance.getLogicalDevice(), *_instance.getQueueFamilies(), _swapchain, _pipeline))
+		_renderer(*new RendererInput(*_instance.getLogicalDevice(), *_instance.getQueueFamilies(), _window, _swapchain, _pipeline))
 	{
 
 	}

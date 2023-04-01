@@ -2,23 +2,22 @@
 #include "Swapchain.h"
 #include "Objects/GameObj.h"
 #include "pipeline/Pipeline.h"
+#include "layers/Window/Window.h"
 
 namespace tze
 {
 	struct RendererInput
 	{
 		vk::Device& _logicalDevice;
-		uint32_t					 _width;
-		uint32_t					 _height;
 		QueueFamilies& _indices;
+		Window& _window;
 		Pipeline& _pipeline;
 		Swapchain& _swapchain;
 
 		RendererInput(
-			uint32_t					 width,
-			uint32_t					 height,
 			vk::Device& logicalDevice,
 			QueueFamilies& indices,
+			Window& window,
 			Swapchain& swapchain,
 			Pipeline& pipeline
 		) 
@@ -26,10 +25,11 @@ namespace tze
 			_logicalDevice(logicalDevice),
 			_swapchain(swapchain),
 			_pipeline(pipeline),
-			_width(width),
-			_height(height),
+			_window(window),
 			_indices(indices)
-		{ }
+		{ 
+			
+		}
 	};
 
 	class TZE_API Renderer
@@ -38,11 +38,16 @@ namespace tze
 		Renderer(const RendererInput& input);
 		~Renderer();
 
+		/// <summary>
+		/// this function is being called when the size of the window has changed and the current swapchain and pipeline needs to 
+		/// be reconstructed because they don't suit the new size
+		/// </summary>
 		void addGameObjects(GameObject* obj);
 		void run();
 	private:
 		void recordDrawCommands(const vk::CommandBuffer& commandBuffer, uint32_t imageIndex);
 		void renderGameObj(const vk::CommandBuffer& commandBuffer);
+		void recreationOfWindowSize();
 
 		const RendererInput& _input;
 		std::vector<GameObject*> _gameObjects;

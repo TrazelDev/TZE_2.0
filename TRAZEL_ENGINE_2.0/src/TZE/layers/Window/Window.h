@@ -29,6 +29,15 @@ namespace tze
 
 		void calculateFrameRate();
 
+
+		// resizing functions:
+		static void frameBufferResizedCallback(GLFWwindow* window, int width, int height);
+		bool wasWindowResized() { return _windowResized; };
+		void resetWindowResizedFlag() { _windowResized = false; };
+		bool wasWindowMinimized() { return _windowMinimized; };
+		void resetWindowMinimizedFlag() { _windowMinimized = false; };
+
+
 	private:
 		void buildGLFWWindow();
 
@@ -38,6 +47,8 @@ namespace tze
 		std::string _title;
 		uint32_t _width;
 		uint32_t _height;
+		bool _windowResized; // a var that says that the window was resized
+		bool _windowMinimized; // a var that says that the window has been minimized
 
 		// this is a special variable that lets me signal to the application that the user has closed the window:
 		bool _closedWindowFLag;

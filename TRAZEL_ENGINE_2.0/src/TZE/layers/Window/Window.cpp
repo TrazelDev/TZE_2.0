@@ -3,6 +3,8 @@
 
 tze::Window::Window(int width, int height, const char* title)
 {
+	_windowMinimized = false;
+	_windowResized = false;
 	_closedWindowFLag = false;
 	_width = width;
 	_height = height;
@@ -75,12 +77,34 @@ void tze::Window::buildGLFWWindow()
 	// no default rendering client VULKAN will be hooked up later on
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
-	// resizing breaks the swapChain so it will be disabled for now
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
 	_window = glfwCreateWindow(_width, _height, _title.c_str(), nullptr, nullptr);
 	if (!_window)
 	{
 		TZE_ENGINE_ERR("Failed to create the GLFW window variable");
+	}
+
+	glfwSetWindowUserPointer(_window, this);
+	glfwSetFramebufferSizeCallback(_window, frameBufferResizedCallback);
+}
+
+void tze::Window::frameBufferResizedCallback(GLFWwindow* window, int width, int height)
+{
+	auto thisWindow = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
+
+	if (width == thisWindow->_width && height == thisWindow->_height)
+	{
+		thisWindow->_windowMinimized = false;
+	}
+	else if (width == 0 || height == 0)
+	{
+		thisWindow->_windowMinimized = true;
+	}
+	else
+	{
+		thisWindow->_windowResized = true;
+		thisWindow->_width = width;
+		thisWindow->_height = height;
 	}
 }

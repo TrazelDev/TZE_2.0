@@ -4,11 +4,43 @@
 
 tze::Pipeline::Pipeline(const pipelineInput& input,
 	const std::string& vertexShaderPath, const std::string& fragmentShaderPath) :
-	_input(input)
+	_input(input), _vertexShaderPath(vertexShaderPath), _fragmentShaderPath(fragmentShaderPath)
 {
-	_vertexShaderPath = vertexShaderPath;
-	_fragmentShaderPath = fragmentShaderPath;
+	createPipeLine(_input._swapchainExtent);
+}
 
+tze::Pipeline::~Pipeline()
+{
+	destroyPipeline();
+}
+
+void tze::Pipeline::run()
+{
+}
+
+void tze::Pipeline::recreatePipeline(vk::Extent2D& swapchainExtent)
+{
+	destroyPipeline();
+	createPipeLine(swapchainExtent);
+}
+
+vk::RenderPass& tze::Pipeline::getRenderPass()
+{
+	return _renderPass;
+}
+
+vk::Pipeline& tze::Pipeline::getPipeline()
+{
+	return _graphicsPipeline;
+}
+
+vk::PipelineLayout& tze::Pipeline::getLayout()
+{
+	return _layout;
+}
+
+void tze::Pipeline::createPipeLine(vk::Extent2D& swapchainExtent)
+{
 	vk::GraphicsPipelineCreateInfo pipelineInfo = {};
 	vk::PipelineVertexInputStateCreateInfo vertexInputInfo = {};
 	vk::PipelineInputAssemblyStateCreateInfo inputAssemblyInfo = {};
@@ -46,7 +78,7 @@ tze::Pipeline::Pipeline(const pipelineInput& input,
 	inputAssemblyInfo.flags = vk::PipelineInputAssemblyStateCreateFlags();
 	inputAssemblyInfo.topology = vk::PrimitiveTopology::eTriangleList;
 
-	vertexShader = createModule(vertexShaderPath);
+	vertexShader = createModule(_vertexShaderPath);
 	vertexShaderInfo.flags = vk::PipelineShaderStageCreateFlags();
 	vertexShaderInfo.stage = vk::ShaderStageFlagBits::eVertex;
 	vertexShaderInfo.module = vertexShader;
@@ -56,15 +88,15 @@ tze::Pipeline::Pipeline(const pipelineInput& input,
 	// creating a view port: ( view port is a place on the screen that we can render to a multiple view ports can be created to simulate a few things on the screen)
 	viewport.x = 0.0f;
 	viewport.y = 0.0f;
-	viewport.width = input._swapchainExtent.width;
-	viewport.height = input._swapchainExtent.height;
+	viewport.width = swapchainExtent.width;
+	viewport.height = swapchainExtent.height;
 	viewport.minDepth = 0.0f;
 	viewport.maxDepth = 1.0f;
 
 	// creating a scissor: it is similar to viewport but can not be change probably)
 	scissor.offset.x = 0.0f;
 	scissor.offset.y = 0.0f;
-	scissor.extent = input._swapchainExtent;
+	scissor.extent = swapchainExtent;
 
 	// creating a view port states because there could be more than one viewport on the screen:
 	viewportState.flags = vk::PipelineViewportStateCreateFlags();
@@ -99,7 +131,7 @@ tze::Pipeline::Pipeline(const pipelineInput& input,
 	rasterizer.depthBiasEnable = VK_FALSE;
 
 	// creation of fragment shader:
-	fragmentShader = createModule(fragmentShaderPath);
+	fragmentShader = createModule(_fragmentShaderPath);
 	fragmentShaderInfo.flags = vk::PipelineShaderStageCreateFlags();
 	fragmentShaderInfo.stage = vk::ShaderStageFlagBits::eFragment;
 	fragmentShaderInfo.module = fragmentShader;
@@ -165,39 +197,16 @@ tze::Pipeline::Pipeline(const pipelineInput& input,
 		TZE_ENGINE_ERR("failed to create graphics pipeline!");
 	}
 
-	input._logicalDevice.destroyShaderModule(vertexShader);
-	input._logicalDevice.destroyShaderModule(fragmentShader);
+	_input._logicalDevice.destroyShaderModule(vertexShader);
+	_input._logicalDevice.destroyShaderModule(fragmentShader);
 }
 
-tze::Pipeline::~Pipeline()
+void tze::Pipeline::destroyPipeline()
 {
 	_input._logicalDevice.waitIdle();
 	_input._logicalDevice.destroyPipeline(_graphicsPipeline);
 	_input._logicalDevice.destroyPipelineLayout(_layout);
 	_input._logicalDevice.destroyRenderPass(_renderPass);
-}
-
-void tze::Pipeline::run()
-{
-}
-
-void tze::Pipeline::recreatePipeline()
-{
-}
-
-vk::RenderPass& tze::Pipeline::getRenderPass()
-{
-	return _renderPass;
-}
-
-vk::Pipeline& tze::Pipeline::getPipeline()
-{
-	return _graphicsPipeline;
-}
-
-vk::PipelineLayout& tze::Pipeline::getLayout()
-{
-	return _layout;
 }
 
 vk::ShaderModule tze::Pipeline::createModule(const std::string& filename)

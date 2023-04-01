@@ -24,6 +24,16 @@ void tze::Renderer::addGameObjects(GameObject* obj)
 
 void tze::Renderer::run()
 {
+	if (_input._window.wasWindowMinimized())
+	{
+		return;
+	}
+	if (_input._window.wasWindowResized())
+	{
+		recreationOfWindowSize();
+		return;
+	}
+
 	_input._logicalDevice.waitForFences(1, &_input._swapchain.getFrames()[_frameNum].inFlight, VK_TRUE, UINT64_MAX);
 	_input._logicalDevice.resetFences(1, &_input._swapchain.getFrames()[_frameNum].inFlight);
 
@@ -71,42 +81,10 @@ void tze::Renderer::run()
 	
 	presentInfo.pImageIndices = &imageIndex;
 	
+
 	_frameNum = (_frameNum + 1) % _maxFramesInFlight;
 	_presentQueue.presentKHR(presentInfo);
 
-	if (result == vk::Result::eErrorOutOfDateKHR || result == vk::Result::eSuboptimalKHR)
-	{
-		// mainWindow->resetWindowResizedFlag();
-		// recreate_swapchain();
-		//_input._swapchain;
-		return;
-	}
-	////////////////////////
-	// uint32_t _frameNum 32_t = _frameNum ;
-	// VkResult result1 = vkAcquireNextImageKHR
-	// (
-	// 	device,
-	// 	*swapchain,
-	// 	std::numeric_limits<uint64_t>::max(),
-	// 	swapchainFrames[_frameNum ].imageAvailable,  // must be a not signaled semaphore
-	// 	swapchainFrames[_frameNum ].inFlight,
-	// 	&_frameNum 32_t
-	// );
-	// if (result1 == VK_ERROR_OUT_OF_DATE_KHR)
-	// {
-	// 	recreate_swapchain();
-	// }
-	////////////////////////////////
-
-	// if (result == vk::Result::eErrorOutOfDateKHR || result == vk::Result::eSuboptimalKHR || mainWindow->wasWindowResized())
-	// {
-	// 	mainWindow->resetWindowResizedFlag();
-	// 	recreate_swapchain();
-	// 	return;
-	// }
-
-	//const auto a = VkPresentInfoKHR(presentInfo);
-	//result1 = vkQueuePresentKHR(presentQueue, &a);
 }
 
 void tze::Renderer::recordDrawCommands(const vk::CommandBuffer& commandBuffer, uint32_t imageIndex)
@@ -139,11 +117,11 @@ void tze::Renderer::recordDrawCommands(const vk::CommandBuffer& commandBuffer, u
 	vk::Viewport viewport = {};
 	viewport.x = 0.0f;
 	viewport.y = 0.0f;
-	viewport.width = _input._width;
-	viewport.height = _input._height;
+	viewport.width = *_input._window.getWidth();
+	viewport.height = *_input._window.getHeight();
 	viewport.minDepth = 0.0f;
 	viewport.maxDepth = 1.0f;
-	vk::Rect2D scissor{ {0, 0}, {_input._width, _input._height} };
+	vk::Rect2D scissor{ {0, 0}, {*_input._window.getWidth(), *_input._window.getHeight()} };
 
 	commandBuffer.setViewport(0, 1, &viewport);
 	commandBuffer.setScissor(0, 1, &scissor);
@@ -179,5 +157,26 @@ void tze::Renderer::renderGameObj(const vk::CommandBuffer& commandBuffer)
 
 		gameObject->_model->bind(commandBuffer);
 		gameObject->_model->draw(commandBuffer);
+	}
+}
+
+void tze::Renderer::recreationOfWindowSize()
+{
+	static int i = 0;
+	i++;
+	std::cout << "the count is: "  << i << std::endl;
+	bool wasMin = false; // var that says if the window was resized or minimized 
+
+	while (*_input._window.getHeight() == 0 || *_input._window.getWidth() == 0)
+	{
+		glfwWaitEvents();
+		wasMin = true;
+	}
+	
+	if (!wasMin)
+	{
+		_input._swapchain.recreateSwapChain(*_input._window.getWidth(), *_input._window.getHeight());
+		_input._pipeline.recreatePipeline(_input._swapchain.getExtent());
+		_input._window.resetWindowResizedFlag();
 	}
 }

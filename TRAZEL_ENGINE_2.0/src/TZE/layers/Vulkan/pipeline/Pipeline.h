@@ -39,12 +39,15 @@ namespace tze
 		/// <summary>
 		/// function that is in charge of creating a new pipeline variables based on the new extent
 		/// </summary>
-		void recreatePipeline();
+		void recreatePipeline(vk::Extent2D& swapchainExtent);
 
 		vk::RenderPass& getRenderPass();
 		vk::Pipeline& getPipeline();
 		vk::PipelineLayout& getLayout();
 	private:
+		void createPipeLine(vk::Extent2D& swapchainExtent);
+		void destroyPipeline();
+
 		/// <summary>
 		/// function is getting a file name and base on the information in the file creating a vulkan shader modul
 		/// </summary>

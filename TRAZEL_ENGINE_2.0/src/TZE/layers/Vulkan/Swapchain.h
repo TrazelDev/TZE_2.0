@@ -36,8 +36,9 @@ namespace tze
 		Swapchain(const swapchainBundle& input);
 		~Swapchain();
 
-		void recreateSwapChain();
 		void run() override;
+		void recreateSwapChain(uint32_t width, uint32_t height);
+
 		vk::Format& getFormat();
 		vk::Extent2D& getExtent();
 		std::vector<SwapchainFrame>& getFrames();
@@ -49,9 +50,18 @@ namespace tze
 		void querySwapchainSupport(const vk::SurfaceCapabilitiesKHR& capabilities,
 			const std::vector<vk::SurfaceFormatKHR>& formats, std::vector<vk::PresentModeKHR> presentModes);
 
+		void makeExtent(uint32_t width, uint32_t height);
+		void createFrames();
+
 		// understand what it is:
+		void createSemaphoresFences();
 		vk::Fence createFence();
 		vk::Semaphore createSemaphore();
+
+		/// <summary>
+		// destroy swapchain related variables: 
+		/// </summary>
+		void destroySwapchain();
 
 		vk::Device& _logicalDevice;
 		vk::PhysicalDevice& _physicalDevice;
@@ -61,7 +71,10 @@ namespace tze
 		// the swap chain is responsible for loading the image that we want to display into a buffer and not directly on the screen to avoid screen taring
 		// so what swap chain is doing is that we load the next image for display into the buffer and then switch between the buffer that currently presenting to the screen
 		// and then load to it and switch again this insures that there is no screen taring
-		vk::SwapchainKHR _swapchain;
+		vk::SurfaceCapabilitiesKHR _capabilities;
+		vk::SwapchainCreateInfoKHR _swapchainCreateInfo;
+		vk::SwapchainKHR _swapchain[2];
+		int _currSwapchain{0};
 		vk::SurfaceFormatKHR _format;
 		vk::PresentModeKHR _presentMode;
 		vk::Extent2D _extent;
