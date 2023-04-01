@@ -15,11 +15,9 @@ namespace tze {
 		commands(*new CommandsInput(*_instance.getLogicalDevice(), *_instance.getPhysicalDevice(),
 			*_instance.getSurface(), _pipeline.getRenderPass(), _swapchain.getExtent(),
 			_swapchain.getFrames(), *_instance.getQueueFamilies())),
-		_renderer(*new RendererInput(*_instance.getLogicalDevice(), _swapchain.getSwapchain(), _swapchain.getFrames(), _pipeline.getRenderPass(),
-		_swapchain.getExtent(), *_window.getWidth(), *_window.getHeight(), _pipeline.getPipeline(), _pipeline.getLayout(), *_instance.getQueueFamilies()))
+		_renderer(*new RendererInput(*_window.getWidth(), *_window.getHeight(), *_instance.getLogicalDevice(), *_instance.getQueueFamilies(), _swapchain, _pipeline))
 	{
-		// pipelineInput input = pipelineInput(*_instance.getLogicalDevice(), _swapchain.getFormat(), _swapchain.getExtent());
-		/// Pipeline(input);
+
 	}
 
 	App::~App()

@@ -36,6 +36,7 @@ namespace tze
 		Swapchain(const swapchainBundle& input);
 		~Swapchain();
 
+		void recreateSwapChain();
 		void run() override;
 		vk::Format& getFormat();
 		vk::Extent2D& getExtent();

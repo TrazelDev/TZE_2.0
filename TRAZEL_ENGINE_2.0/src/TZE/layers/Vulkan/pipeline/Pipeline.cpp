@@ -181,6 +181,10 @@ void tze::Pipeline::run()
 {
 }
 
+void tze::Pipeline::recreatePipeline()
+{
+}
+
 vk::RenderPass& tze::Pipeline::getRenderPass()
 {
 	return _renderPass;

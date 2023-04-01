@@ -53,6 +53,11 @@ tze::Swapchain::~Swapchain()
 	_logicalDevice.destroySwapchainKHR();
 }
 
+void tze::Swapchain::recreateSwapChain()
+{
+
+}
+
 void tze::Swapchain::run()
 {
 }

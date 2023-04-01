@@ -36,6 +36,10 @@ namespace tze
 		~Pipeline();
 
 		void run() override;
+		/// <summary>
+		/// function that is in charge of creating a new pipeline variables based on the new extent
+		/// </summary>
+		void recreatePipeline();
 
 		vk::RenderPass& getRenderPass();
 		vk::Pipeline& getPipeline();

@@ -5,7 +5,7 @@ tze::Renderer::Renderer(const RendererInput& input) : _input(input)
 {
 	_graphicsQueue = _input._logicalDevice.getQueue(_input._indices.graphicsIndex.value(), 0);
 	_presentQueue = _input._logicalDevice.getQueue(_input._indices.presentIndex.value(), 0);
-	_maxFramesInFlight = uint32_t(_input._swapchainFrames.size());
+	_maxFramesInFlight = uint32_t(_input._swapchain.getFrames().size());
 	_frameNum = 0;
 }
 
@@ -24,23 +24,24 @@ void tze::Renderer::addGameObjects(GameObject* obj)
 
 void tze::Renderer::run()
 {
-	_input._logicalDevice.waitForFences(1, &_input._swapchainFrames[_frameNum].inFlight, VK_TRUE, UINT64_MAX);
-	_input._logicalDevice.resetFences(1, &_input._swapchainFrames[_frameNum].inFlight);
+	_input._logicalDevice.waitForFences(1, &_input._swapchain.getFrames()[_frameNum].inFlight, VK_TRUE, UINT64_MAX);
+	_input._logicalDevice.resetFences(1, &_input._swapchain.getFrames()[_frameNum].inFlight);
 
-	auto [result, imageIndex] = _input._logicalDevice.acquireNextImageKHR(_input._swapchain, UINT64_MAX, _input._swapchainFrames[_frameNum].imageAvailable, nullptr);
+	auto [result, imageIndex] = _input._logicalDevice.acquireNextImageKHR(_input._swapchain.getSwapchain(), UINT64_MAX, _input._swapchain.getFrames()[_frameNum].imageAvailable, nullptr);
+
 	if (result != vk::Result::eSuccess)
 	{
 		TZE_ENGINE_ERR("failed to acquire the next image");
 	}
 
-	vk::CommandBuffer commandBuffer = _input._swapchainFrames[_frameNum].commandBuffer;
+	vk::CommandBuffer commandBuffer = _input._swapchain.getFrames()[_frameNum].commandBuffer;
 	
 	commandBuffer.reset();
 	recordDrawCommands(commandBuffer, imageIndex);
 	
 	vk::SubmitInfo submitInfo = {};
 	
-	vk::Semaphore waitSemaphores[] = { _input._swapchainFrames[_frameNum].imageAvailable };
+	vk::Semaphore waitSemaphores[] = { _input._swapchain.getFrames()[_frameNum].imageAvailable };
 	vk::PipelineStageFlags waitStages[] = { vk::PipelineStageFlagBits::eColorAttachmentOutput };
 	submitInfo.waitSemaphoreCount = 1;
 	submitInfo.pWaitSemaphores = waitSemaphores;
@@ -49,12 +50,12 @@ void tze::Renderer::run()
 	submitInfo.commandBufferCount = 1;
 	submitInfo.pCommandBuffers = &commandBuffer;
 	
-	vk::Semaphore signalSemaphores[] = { _input._swapchainFrames[_frameNum].renderFinished };
+	vk::Semaphore signalSemaphores[] = { _input._swapchain.getFrames()[_frameNum].renderFinished };
 	submitInfo.signalSemaphoreCount = 1;
 	submitInfo.pSignalSemaphores = signalSemaphores;
 	
 	try {
-		_graphicsQueue.submit(submitInfo, _input._swapchainFrames[_frameNum].inFlight);
+		_graphicsQueue.submit(submitInfo, _input._swapchain.getFrames()[_frameNum].inFlight);
 	}
 	catch (vk::SystemError err) {
 		TZE_ENGINE_ERR("failed to submit draw command buffer!");
@@ -64,7 +65,7 @@ void tze::Renderer::run()
 	presentInfo.waitSemaphoreCount = 1;
 	presentInfo.pWaitSemaphores = signalSemaphores;
 	
-	vk::SwapchainKHR swapChains[] = { _input._swapchain };
+	vk::SwapchainKHR swapChains[] = { _input._swapchain.getSwapchain()};
 	presentInfo.swapchainCount = 1;
 	presentInfo.pSwapchains = swapChains;
 	
@@ -72,6 +73,14 @@ void tze::Renderer::run()
 	
 	_frameNum = (_frameNum + 1) % _maxFramesInFlight;
 	_presentQueue.presentKHR(presentInfo);
+
+	if (result == vk::Result::eErrorOutOfDateKHR || result == vk::Result::eSuboptimalKHR)
+	{
+		// mainWindow->resetWindowResizedFlag();
+		// recreate_swapchain();
+		//_input._swapchain;
+		return;
+	}
 	////////////////////////
 	// uint32_t _frameNum 32_t = _frameNum ;
 	// VkResult result1 = vkAcquireNextImageKHR
@@ -114,11 +123,11 @@ void tze::Renderer::recordDrawCommands(const vk::CommandBuffer& commandBuffer, u
 	}
 	
 	vk::RenderPassBeginInfo renderpassInfo = {};
-	renderpassInfo.renderPass = _input._renderpass;
-	renderpassInfo.framebuffer = _input._swapchainFrames[imageIndex].frameBuffer;
+	renderpassInfo.renderPass = _input._pipeline.getRenderPass();
+	renderpassInfo.framebuffer = _input._swapchain.getFrames()[imageIndex].frameBuffer;
 	renderpassInfo.renderArea.offset.x = 0;
 	renderpassInfo.renderArea.offset.y = 0;
-	renderpassInfo.renderArea.extent = _input._extent;
+	renderpassInfo.renderArea.extent = _input._swapchain.getExtent();
 
 	vk::ClearValue clearColor = { std::array<float, 4> {0.1f, 0.1f, 0.1f, 1.0f} };
 	renderpassInfo.clearValueCount = 1;
@@ -140,7 +149,7 @@ void tze::Renderer::recordDrawCommands(const vk::CommandBuffer& commandBuffer, u
 	commandBuffer.setScissor(0, 1, &scissor);
 
 
-	commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, _input._pipeline);
+	commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, _input._pipeline.getPipeline());
 	renderGameObj(commandBuffer);
 	commandBuffer.endRenderPass();
 
@@ -165,7 +174,7 @@ void tze::Renderer::renderGameObj(const vk::CommandBuffer& commandBuffer)
 		push.color = gameObject->_color;
 		push.transform = gameObject->_transform_2D.mat2();
 
-		commandBuffer.pushConstants(_input._layout, vk::ShaderStageFlagBits::eVertex |
+		commandBuffer.pushConstants(_input._pipeline.getLayout(), vk::ShaderStageFlagBits::eVertex |
 			vk::ShaderStageFlagBits::eFragment, 0, sizeof(SimplePushConstantData), &push);
 
 		gameObject->_model->bind(commandBuffer);
