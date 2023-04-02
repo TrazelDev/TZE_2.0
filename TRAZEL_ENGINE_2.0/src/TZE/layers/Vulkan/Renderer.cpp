@@ -143,9 +143,16 @@ void tze::Renderer::recordDrawCommands(const vk::CommandBuffer& commandBuffer, u
 
 void tze::Renderer::renderGameObj(const vk::CommandBuffer& commandBuffer)
 {
+	int i = 0;
+	for (auto& obj : _gameObjects) {
+		i += 1;
+		// obj->_transform_2D._rotation = glm::mod<float>(obj->_transform_2D._rotation + 0.001f * i, 2.f * glm::pi<float>());
+		obj->_transform_2D._rotation = glm::mod<float>(obj->_transform_2D._rotation + 0.00003f * i, 2.f * glm::pi<float>());
+	}
+
 	for (GameObject* gameObject : _gameObjects)
 	{
-		gameObject->_transform_2D.runChanges();
+		// gameObject->_transform_2D.runChanges();
 
 		SimplePushConstantData push;
 		push.offset = gameObject->_transform_2D._translation;

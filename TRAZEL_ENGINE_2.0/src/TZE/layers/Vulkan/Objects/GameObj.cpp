@@ -46,4 +46,5 @@ tze::GameObject* tze::GameObject::p_createGameObj()
 
 void tze::GameObject::run()
 {
+
 }

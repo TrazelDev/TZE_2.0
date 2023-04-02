@@ -92,11 +92,13 @@
       <AdditionalDependencies>..\third_party_extentions\glfw\lib-vc2022\glfw3.lib;..\third_party_extentions\vulkan_sdk\Lib\vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\bin\Debug-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.lib</ImportLibrary>
     </Link>
+    <PreBuildEvent>
+      <Command>$(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\shader.frag -o $(ProjectDir)..\Client\fragment.spv
+$(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\shader.vert -o$(ProjectDir)..\Client\vertex.spv</Command>
+    </PreBuildEvent>
     <PostBuildEvent>
       <Command>IF EXIST third_party_extentions\glfw\lib-vc2022\glfw3.lib\ (xcopy /Q /E /Y /I third_party_extentions\glfw\lib-vc2022\glfw3.lib bin\Debug-windows-x86_64\Client &gt; nul) ELSE (xcopy /Q /Y /I third_party_extentions\glfw\lib-vc2022\glfw3.lib bin\Debug-windows-x86_64\Client &gt; nul)
-IF EXIST ..\bin\Debug-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll ..\bin\Debug-windows-x86_64\Client &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll ..\bin\Debug-windows-x86_64\Client &gt; nul)
-$(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\shader.frag -o $(ProjectDir)..\Client\fragment.spv
-$(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\shader.vert -o$(ProjectDir)..\Client\vertex.spv</Command>
+IF EXIST ..\bin\Debug-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll ..\bin\Debug-windows-x86_64\Client &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll ..\bin\Debug-windows-x86_64\Client &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -122,11 +124,13 @@ $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\T
       <AdditionalDependencies>..\third_party_extentions\glfw\lib-vc2022\glfw3.lib;..\third_party_extentions\vulkan_sdk\Lib\vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\bin\Release-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.lib</ImportLibrary>
     </Link>
+    <PreBuildEvent>
+      <Command>$(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\shader.frag -o $(ProjectDir)..\Client\fragment.spv
+$(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\shader.vert -o$(ProjectDir)..\Client\vertex.spv</Command>
+    </PreBuildEvent>
     <PostBuildEvent>
       <Command>IF EXIST third_party_extentions\glfw\lib-vc2022\glfw3.lib\ (xcopy /Q /E /Y /I third_party_extentions\glfw\lib-vc2022\glfw3.lib bin\Release-windows-x86_64\Client &gt; nul) ELSE (xcopy /Q /Y /I third_party_extentions\glfw\lib-vc2022\glfw3.lib bin\Release-windows-x86_64\Client &gt; nul)
-IF EXIST ..\bin\Release-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll ..\bin\Release-windows-x86_64\Client &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll ..\bin\Release-windows-x86_64\Client &gt; nul)
-$(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\shader.frag -o $(ProjectDir)..\Client\fragment.spv
-$(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\shader.vert -o$(ProjectDir)..\Client\vertex.spv</Command>
+IF EXIST ..\bin\Release-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll ..\bin\Release-windows-x86_64\Client &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll ..\bin\Release-windows-x86_64\Client &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Client|x64'">
@@ -152,11 +156,13 @@ $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\T
       <AdditionalDependencies>..\third_party_extentions\glfw\lib-vc2022\glfw3.lib;..\third_party_extentions\vulkan_sdk\Lib\vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\bin\Client-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.lib</ImportLibrary>
     </Link>
+    <PreBuildEvent>
+      <Command>$(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\shader.frag -o $(ProjectDir)..\Client\fragment.spv
+$(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\shader.vert -o$(ProjectDir)..\Client\vertex.spv</Command>
+    </PreBuildEvent>
     <PostBuildEvent>
       <Command>IF EXIST third_party_extentions\glfw\lib-vc2022\glfw3.lib\ (xcopy /Q /E /Y /I third_party_extentions\glfw\lib-vc2022\glfw3.lib bin\Client-windows-x86_64\Client &gt; nul) ELSE (xcopy /Q /Y /I third_party_extentions\glfw\lib-vc2022\glfw3.lib bin\Client-windows-x86_64\Client &gt; nul)
-IF EXIST ..\bin\Client-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll\ (xcopy /Q /E /Y /I ..\bin\Client-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll ..\bin\Client-windows-x86_64\Client &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Client-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll ..\bin\Client-windows-x86_64\Client &gt; nul)
-$(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\shader.frag -o $(ProjectDir)..\Client\fragment.spv
-$(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\glslc.exe $(ProjectDir)src\TZE\layers\Vulkan\pipeline\Shaders\shader.vert -o$(ProjectDir)..\Client\vertex.spv</Command>
+IF EXIST ..\bin\Client-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll\ (xcopy /Q /E /Y /I ..\bin\Client-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll ..\bin\Client-windows-x86_64\Client &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Client-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll ..\bin\Client-windows-x86_64\Client &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

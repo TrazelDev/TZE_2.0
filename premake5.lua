@@ -53,14 +53,16 @@ project "TRAZEL_ENGINE_2.0"
             "TZE_PLATFORM_WINDOWS",
             "TZE_BUILD_DLL",
         }
-
-        postbuildcommands {
-            -- ("{COPY} third_party_extentions/ bin/" .. output_dir .. "/Client"),
-            ("{COPY} third_party_extentions/glfw/lib-vc2022/glfw3.lib bin/" .. output_dir .. "/Client"),
-            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. output_dir .. "/Client"),
+        
+        prebuildcommands 
+        {
             ("$(ProjectDir)src\\TZE\\layers\\Vulkan\\pipeline\\Shaders\\glslc.exe $(ProjectDir)src\\TZE\\layers\\Vulkan\\pipeline\\Shaders\\shader.frag -o $(ProjectDir)..\\Client\\fragment.spv"),
             ("$(ProjectDir)src\\TZE\\layers\\Vulkan\\pipeline\\Shaders\\glslc.exe $(ProjectDir)src\\TZE\\layers\\Vulkan\\pipeline\\Shaders\\shader.vert -o$(ProjectDir)..\\Client\\vertex.spv"),
 
+        }
+        postbuildcommands {
+            ("{COPY} third_party_extentions/glfw/lib-vc2022/glfw3.lib bin/" .. output_dir .. "/Client"),
+            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. output_dir .. "/Client"),
         }
 
 

@@ -9,7 +9,7 @@ VKAPI_ATTR VkBool32 VKAPI_CALL tze::debugCallback
 	void* pUserData
 )
 {
-	std::cerr << "validation layer: " << pCallbackData->pMessage << '\n';
+	TZE_ENGINE_ERR(std::string("validation layer: ") + pCallbackData->pMessage + '\n');
 
 	return VK_FALSE;
 }
