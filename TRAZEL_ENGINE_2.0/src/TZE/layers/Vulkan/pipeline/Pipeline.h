@@ -45,31 +45,62 @@ namespace tze
 		vk::Pipeline& getPipeline();
 		vk::PipelineLayout& getLayout();
 	private:
+		/// <summary>
+		/// this function is in charge of creating the pipeline it is basically creating all of the class almost
+		/// </summary>
+		/// <param name="swapchainExtent"></param>
 		void createPipeLine(vk::Extent2D& swapchainExtent);
-		void destroyPipeline();
+		void destroyPipeline(); // destroying almost evreything in the class
+
+		inline vk::PipelineVertexInputStateCreateInfo createVertexInputInfo() const;
+		/// <summary>
+		/// sets the basic topology that the vertices for now planning to support the following:
+		/// 
+		/// <para> ePointList: This topology is used for drawing individual points. 
+		/// It's commonly used for particle systems or drawing small objects such as UI elements. </para>
+		/// 
+		/// <para> eLineList: This topology is used for drawing individual lines.
+		/// It's useful for drawing shapes or connecting points.</para>
+		/// 
+		/// <para> eLineStrip : This topology is similar to eLineList, but it creates a single connected line.
+		/// It's useful for drawing continuous curves or strokes.</para>
+		/// 
+		/// <para> eTriangleList : This topology is used for drawing individual triangles.
+		/// It's useful for drawing filled shapes such as polygons. </para>
+		/// 
+		/// <para> eTriangleStrip : This topology is similar to eTriangleList, but it creates a single connected triangle strip.
+		/// It's useful for drawing complex surfaces or terrains.</para>
+		/// 
+		/// </summary>
+		/// <param name="topology">vk::PrimitiveTopology::ePointList or vk::PrimitiveTopology::eLineList or 
+		/// vk::PrimitiveTopology::eTriangleList or vk::PrimitiveTopology::eTriangleList or vk::PrimitiveTopology::eTriangleStrip </param>
+		/// <returns></returns>
+		inline vk::PipelineInputAssemblyStateCreateInfo createInputAssemblyInfo(const vk::PrimitiveTopology topology) const;
+		// inline std::vector<vk::PipelineShaderStageCreateInfo> createShaderStages() const;
+		inline std::vector<vk::PipelineShaderStageCreateInfo> createShaderStages() const;
 
 		/// <summary>
 		/// function is getting a file name and base on the information in the file creating a vulkan shader modul
 		/// </summary>
 		/// <param name="filename">the name of the file shader with the information</param>
 		/// <returns>the vulkan shader module corresponding to data inside the shader spv file</returns>
-		vk::ShaderModule createModule(const std::string& filename);
+		vk::ShaderModule createModule(const std::string& filename) const;
 
 		/// <summary>
 		/// function that is getting a file name and putting the char of the file into a vector of chars
 		/// </summary>
 		/// <param name="filename">the name of the file we want to check</param>
 		/// <returns>the vector of chars that contains the info of the file</returns>
-		std::vector<char> readFile(const std::string& filename);
+		std::vector<char> readFile(const std::string& filename) const;
 
 		// this function is getting the logical device and creating a pipeline layout from it and returning it
 		// pipeline layout is a way to connect the pipeline shader stage to the other stages
 		vk::PipelineLayout makePipelineLayout();
 
 		/// <summary>
-		/// the function is creating a renderPass ( renderPass - )
+		/// the function is creating a renderPass 
 		/// </summary>
-		/// <returns>renderPass is has created</returns>
+		/// <returns>renderPass that has created</returns>
 		vk::RenderPass makeRenderPass();
 
 		const pipelineInput& _input;

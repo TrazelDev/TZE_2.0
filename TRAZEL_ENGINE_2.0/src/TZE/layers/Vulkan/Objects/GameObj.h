@@ -1,6 +1,6 @@
 #pragma once
 #include "layers/Layer.h"
-#include "Model.h"
+#include "Models/Model.h"
 
 namespace tze
 {

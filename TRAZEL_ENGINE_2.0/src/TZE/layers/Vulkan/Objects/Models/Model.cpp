@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Model.h"
 
-tze::Model::Model(vk::PhysicalDevice& physicalDevice, vk::Device& logicalDevice, std::vector<Vertex>& vertices) 
+tze::Model::Model(vk::PhysicalDevice& physicalDevice, vk::Device& logicalDevice, std::vector<BasicVertex>& vertices) 
 	: _physicalDevice(physicalDevice), _logicalDevice(logicalDevice)
 {
 	createVertexBuffer(vertices);
@@ -25,7 +25,7 @@ void tze::Model::draw(const vk::CommandBuffer& commandBuffer)
 	commandBuffer.draw(_vertexCount, 1, 0, 0);
 }
 
-void tze::Model::createVertexBuffer(const std::vector<Vertex>& vertices)
+void tze::Model::createVertexBuffer(const std::vector<BasicVertex>& vertices)
 {
 	_vertexCount = uint32_t(vertices.size());
 	assert(_vertexCount >= 3 && "vertex count must be at least 3");
@@ -103,29 +103,28 @@ uint32_t tze::Model::findMemoryType(uint32_t typeFilter, const vk::MemoryPropert
 	return -1;
 }
 
-std::vector<vk::VertexInputBindingDescription> tze::Model::Vertex::getBindingDescriptions()
+std::vector<vk::VertexInputBindingDescription> tze::Model::BasicVertex::getBindingDescriptions()
 {
 	std::vector<vk::VertexInputBindingDescription> bidingDescription(1);
 	bidingDescription[0].binding = 0;
-	bidingDescription[0].stride = sizeof(Vertex);
+	bidingDescription[0].stride = sizeof(BasicVertex);
 	bidingDescription[0].inputRate = vk::VertexInputRate::eVertex;
 
 
 	return bidingDescription;
 }
-
-std::vector<vk::VertexInputAttributeDescription> tze::Model::Vertex::getAttributeDescriptions()
+std::vector<vk::VertexInputAttributeDescription> tze::Model::BasicVertex::getAttributeDescriptions()
 {
 	std::vector<vk::VertexInputAttributeDescription> attributeDescription(2);
 	attributeDescription[0].binding = 0;
 	attributeDescription[0].location = 0;
 	attributeDescription[0].format = vk::Format::eR32G32Sfloat; // VK_FORMAT_R32G32_SFLOAT;
-	attributeDescription[0].offset = offsetof(Vertex, _position);
+	attributeDescription[0].offset = offsetof(BasicVertex, _position);
 
 	attributeDescription[1].binding = 0;
 	attributeDescription[1].location = 1;
 	attributeDescription[1].format = vk::Format::eR32G32Sfloat;
-	attributeDescription[1].offset = offsetof(Vertex, _color);
+	attributeDescription[1].offset = offsetof(BasicVertex, _color);
 
 	return attributeDescription;
 }

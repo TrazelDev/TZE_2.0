@@ -45,10 +45,10 @@ namespace tze
 		/// be reconstructed because they don't suit the new size
 		/// </summary>
 		void addGameObjects(GameObject* obj);
-		void run();
+		inline void run();
 	private:
-		void recordDrawCommands(const vk::CommandBuffer& commandBuffer, uint32_t imageIndex);
-		void renderGameObj(const vk::CommandBuffer& commandBuffer);
+		inline void recordDrawCommands(const vk::CommandBuffer& commandBuffer, uint32_t imageIndex);
+		inline void renderGameObj(const vk::CommandBuffer& commandBuffer);
 		void recreationOfWindowSize();
 
 		const RendererInput& _input;

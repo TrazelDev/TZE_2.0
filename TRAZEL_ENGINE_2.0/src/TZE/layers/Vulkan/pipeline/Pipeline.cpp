@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Pipeline.h"
-#include "layers/Vulkan/Objects/Model.h"
+#include "layers/Vulkan/Objects/Models/Model.h"
 
 tze::Pipeline::Pipeline(const pipelineInput& input,
 	const std::string& vertexShaderPath, const std::string& fragmentShaderPath) :
@@ -42,17 +42,13 @@ vk::PipelineLayout& tze::Pipeline::getLayout()
 void tze::Pipeline::createPipeLine(vk::Extent2D& swapchainExtent)
 {
 	vk::GraphicsPipelineCreateInfo pipelineInfo = {};
-	vk::PipelineVertexInputStateCreateInfo vertexInputInfo = {};
-	vk::PipelineInputAssemblyStateCreateInfo inputAssemblyInfo = {};
-	std::vector<vk::PipelineShaderStageCreateInfo> shaderStages;
-	vk::PipelineShaderStageCreateInfo vertexShaderInfo;
+	vk::PipelineVertexInputStateCreateInfo vertexInputInfo = createVertexInputInfo();
+	vk::PipelineInputAssemblyStateCreateInfo inputAssemblyInfo = createInputAssemblyInfo(vk::PrimitiveTopology::eTriangleList); // for now displaying triangles
+	std::vector<vk::PipelineShaderStageCreateInfo> shaderStages = createShaderStages();
 	vk::Viewport viewport = {};
 	vk::Rect2D scissor = {};
 	vk::PipelineViewportStateCreateInfo viewportState = {};
 	vk::PipelineRasterizationStateCreateInfo rasterizer = {};
-	vk::ShaderModule vertexShader;
-	vk::ShaderModule fragmentShader;
-	vk::PipelineShaderStageCreateInfo fragmentShaderInfo = {};
 	vk::PipelineMultisampleStateCreateInfo multisampling = {};
 	vk::PipelineColorBlendAttachmentState colorBlendAttachment = {};
 	vk::PipelineColorBlendStateCreateInfo colorBlending = {};
@@ -62,28 +58,6 @@ void tze::Pipeline::createPipeLine(vk::Extent2D& swapchainExtent)
 		vk::DynamicState::eScissor
 	};
 	vk::PipelineDynamicStateCreateInfo dynamicStateCreateInfo;
-	// getting the vertex shader attributes and binding:
-	auto bindingDescription = Model::Vertex::getBindingDescriptions();
-	auto attributeDescription = Model::Vertex::getAttributeDescriptions();
-
-	// creating the vertex creating info:
-	vertexInputInfo.flags = vk::PipelineVertexInputStateCreateFlags();
-	vertexInputInfo.sType = vk::StructureType::ePipelineVertexInputStateCreateInfo; // VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-	vertexInputInfo.vertexAttributeDescriptionCount = uint32_t(attributeDescription.size());
-	vertexInputInfo.vertexBindingDescriptionCount = uint32_t(bindingDescription.size());
-	vertexInputInfo.pVertexAttributeDescriptions = attributeDescription.data();
-	vertexInputInfo.pVertexBindingDescriptions = bindingDescription.data();
-
-	// Assembly input (the way we take the vertices and assemble the shapes on the screen):
-	inputAssemblyInfo.flags = vk::PipelineInputAssemblyStateCreateFlags();
-	inputAssemblyInfo.topology = vk::PrimitiveTopology::eTriangleList;
-
-	vertexShader = createModule(_vertexShaderPath);
-	vertexShaderInfo.flags = vk::PipelineShaderStageCreateFlags();
-	vertexShaderInfo.stage = vk::ShaderStageFlagBits::eVertex;
-	vertexShaderInfo.module = vertexShader;
-	vertexShaderInfo.pName = "main";
-	shaderStages.push_back(vertexShaderInfo);
 
 	// creating a view port: ( view port is a place on the screen that we can render to a multiple view ports can be created to simulate a few things on the screen)
 	viewport.x = 0.0f;
@@ -129,14 +103,6 @@ void tze::Pipeline::createPipeLine(vk::Extent2D& swapchainExtent)
 	rasterizer.cullMode = vk::CullModeFlagBits::eBack;
 	rasterizer.frontFace = vk::FrontFace::eClockwise;
 	rasterizer.depthBiasEnable = VK_FALSE;
-
-	// creation of fragment shader:
-	fragmentShader = createModule(_fragmentShaderPath);
-	fragmentShaderInfo.flags = vk::PipelineShaderStageCreateFlags();
-	fragmentShaderInfo.stage = vk::ShaderStageFlagBits::eFragment;
-	fragmentShaderInfo.module = fragmentShader;
-	fragmentShaderInfo.pName = "main";
-	shaderStages.push_back(fragmentShaderInfo);
 
 	// multisampling: ( a technique used to fix curved or diagonal lines to make them smoother by taking multiple pixels from an area and
 	// averaging them out to make it smoother as I said )
@@ -197,8 +163,10 @@ void tze::Pipeline::createPipeLine(vk::Extent2D& swapchainExtent)
 		TZE_ENGINE_ERR("failed to create graphics pipeline!");
 	}
 
-	_input._logicalDevice.destroyShaderModule(vertexShader);
-	_input._logicalDevice.destroyShaderModule(fragmentShader);
+	for (auto& shaderStage : shaderStages)
+	{
+		_input._logicalDevice.destroyShaderModule(shaderStage.module);
+	}
 }
 
 void tze::Pipeline::destroyPipeline()
@@ -209,7 +177,62 @@ void tze::Pipeline::destroyPipeline()
 	_input._logicalDevice.destroyRenderPass(_renderPass);
 }
 
-vk::ShaderModule tze::Pipeline::createModule(const std::string& filename)
+inline vk::PipelineVertexInputStateCreateInfo tze::Pipeline::createVertexInputInfo() const
+{
+	vk::PipelineVertexInputStateCreateInfo vertexInputInfo = {};
+
+	// getting the vertex shader attributes and binding:
+	static auto bindingDescription = Model::BasicVertex::getBindingDescriptions();
+	static auto attributeDescription = Model::BasicVertex::getAttributeDescriptions();
+
+	// creating the vertex creating info:
+	vertexInputInfo.flags = vk::PipelineVertexInputStateCreateFlags();
+	vertexInputInfo.sType = vk::StructureType::ePipelineVertexInputStateCreateInfo; // VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+	vertexInputInfo.vertexAttributeDescriptionCount = uint32_t(attributeDescription.size());
+	vertexInputInfo.vertexBindingDescriptionCount = uint32_t(bindingDescription.size());
+	vertexInputInfo.pVertexAttributeDescriptions = attributeDescription.data();
+	vertexInputInfo.pVertexBindingDescriptions = bindingDescription.data();
+
+	return vertexInputInfo;
+}
+inline vk::PipelineInputAssemblyStateCreateInfo tze::Pipeline::createInputAssemblyInfo(const vk::PrimitiveTopology topology) const
+{
+	vk::PipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
+
+	// Assembly input (the way we take the vertices and assemble the shapes on the screen):
+	inputAssemblyInfo.flags = vk::PipelineInputAssemblyStateCreateFlags();
+	inputAssemblyInfo.topology = topology;
+
+	return inputAssemblyInfo;
+}
+
+inline std::vector<vk::PipelineShaderStageCreateInfo> tze::Pipeline::createShaderStages() const
+{
+	std::vector<vk::PipelineShaderStageCreateInfo> shaderStages;
+	vk::ShaderModule vertexShader;
+	vk::ShaderModule fragmentShader;
+	vk::PipelineShaderStageCreateInfo vertexShaderInfo = {};
+	vk::PipelineShaderStageCreateInfo fragmentShaderInfo = {};
+
+	vertexShader = createModule(_vertexShaderPath);
+	vertexShaderInfo.flags = vk::PipelineShaderStageCreateFlags();
+	vertexShaderInfo.stage = vk::ShaderStageFlagBits::eVertex;
+	vertexShaderInfo.module = vertexShader;
+	vertexShaderInfo.pName = "main";
+	shaderStages.push_back(vertexShaderInfo);
+
+	// creation of fragment shader:
+	fragmentShader = createModule(_fragmentShaderPath);
+	fragmentShaderInfo.flags = vk::PipelineShaderStageCreateFlags();
+	fragmentShaderInfo.stage = vk::ShaderStageFlagBits::eFragment;
+	fragmentShaderInfo.module = fragmentShader;
+	fragmentShaderInfo.pName = "main";
+	shaderStages.push_back(fragmentShaderInfo);
+
+	return shaderStages;
+}
+
+inline vk::ShaderModule tze::Pipeline::createModule(const std::string& filename) const
 {
 	std::vector<char> sourceCode = readFile(filename); // getting the content of the files
 
@@ -230,7 +253,7 @@ vk::ShaderModule tze::Pipeline::createModule(const std::string& filename)
 	}
 }
 
-std::vector<char> tze::Pipeline::readFile(const std::string& filename)
+std::vector<char> tze::Pipeline::readFile(const std::string& filename) const
 {
 	std::ifstream file(filename, std::ios::ate | std::ios::binary);
 

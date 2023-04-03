@@ -49,7 +49,7 @@
     <ClInclude Include="src\TZE\layers\Vulkan\Objects\GameObj.h">
       <Filter>TZE\layers\Vulkan\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="src\TZE\layers\Vulkan\Objects\Model.h">
+    <ClInclude Include="src\TZE\layers\Vulkan\Objects\Models\Model.h">
       <Filter>TZE\layers\Vulkan\Objects</Filter>
     </ClInclude>
     <ClInclude Include="src\TZE\layers\Vulkan\Renderer.h">
@@ -87,7 +87,7 @@
     <ClCompile Include="src\TZE\layers\Vulkan\Objects\GameObj.cpp">
       <Filter>TZE\layers\Vulkan\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="src\TZE\layers\Vulkan\Objects\Model.cpp">
+    <ClCompile Include="src\TZE\layers\Vulkan\Objects\Models\Model.cpp">
       <Filter>TZE\layers\Vulkan\Objects</Filter>
     </ClCompile>
     <ClCompile Include="src\TZE\layers\Vulkan\Renderer.cpp">

@@ -174,7 +174,7 @@ IF EXIST ..\bin\Client-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll\ (
     <ClInclude Include="src\TZE\layers\Vulkan\Commands.h" />
     <ClInclude Include="src\TZE\layers\Vulkan\Instance.h" />
     <ClInclude Include="src\TZE\layers\Vulkan\Objects\GameObj.h" />
-    <ClInclude Include="src\TZE\layers\Vulkan\Objects\Model.h" />
+    <ClInclude Include="src\TZE\layers\Vulkan\Objects\Models\Model.h" />
     <ClInclude Include="src\TZE\layers\Vulkan\Renderer.h" />
     <ClInclude Include="src\TZE\layers\Vulkan\Swapchain.h" />
     <ClInclude Include="src\TZE\layers\Vulkan\pipeline\Pipeline.h" />
@@ -188,7 +188,7 @@ IF EXIST ..\bin\Client-windows-x86_64\TRAZEL_ENGINE_2.0\TRAZEL_ENGINE_2.0.dll\ (
     <ClCompile Include="src\TZE\layers\Vulkan\Commands.cpp" />
     <ClCompile Include="src\TZE\layers\Vulkan\Instance.cpp" />
     <ClCompile Include="src\TZE\layers\Vulkan\Objects\GameObj.cpp" />
-    <ClCompile Include="src\TZE\layers\Vulkan\Objects\Model.cpp" />
+    <ClCompile Include="src\TZE\layers\Vulkan\Objects\Models\Model.cpp" />
     <ClCompile Include="src\TZE\layers\Vulkan\Renderer.cpp" />
     <ClCompile Include="src\TZE\layers\Vulkan\Swapchain.cpp" />
     <ClCompile Include="src\TZE\layers\Vulkan\pipeline\Pipeline.cpp" />

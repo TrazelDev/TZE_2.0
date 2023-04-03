@@ -5,13 +5,13 @@ namespace tze
 	class TZE_API Model
 	{
 	public:
-		struct TZE_API Vertex
+		struct TZE_API BasicVertex
 		{
 			glm::vec2 _position;
 			glm::vec3 _color;
 
 			/// <summary>
-			/// function for getting the vertex input to know what kind of input the vertex Shader is getting 
+			/// function for getting the BasicVertex input to know what kind of input the vertex Shader is getting 
 			/// </summary>
 			/// <returns>the vertex input binding vector</returns>
 			static std::vector<vk::VertexInputBindingDescription> getBindingDescriptions();
@@ -23,7 +23,7 @@ namespace tze
 			static std::vector<vk::VertexInputAttributeDescription> getAttributeDescriptions();
 		};
 
-		Model(vk::PhysicalDevice& physicalDevice, vk::Device& device, std::vector<Vertex>& vertices);
+		Model(vk::PhysicalDevice& physicalDevice, vk::Device& device, std::vector<BasicVertex>& vertices);
 		~Model();
 		Model(const Model&) = delete;
 		Model& operator=(const Model&) = delete;
@@ -32,7 +32,7 @@ namespace tze
 		void draw(const vk::CommandBuffer& commandBuffer);
 
 	private:
-		void createVertexBuffer(const std::vector<Vertex>& vertices);
+		void createVertexBuffer(const std::vector<BasicVertex>& vertices);
 		/// <summary>
 		/// this function is creating a buffer of the data on the gpu that is used to speed things up
 		/// </summary>

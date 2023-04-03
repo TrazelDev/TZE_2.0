@@ -29,7 +29,7 @@ public:
 		// 	makeTriangle(vertices, _colors[i - 1]);
 		// }
 
-		std::vector<tze::Model::Vertex> vertices{
+		std::vector<tze::Model::BasicVertex> vertices{
 		{{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
 		{{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
 		{{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}} };
@@ -42,12 +42,12 @@ public:
 			{1.f, .87f, .73f},
 			{1.f, 1.f, .73f},
 			{.73f, 1.f, .8f},
-			{.73, .88f, 1.f}  //
+			{.73, .88f, 1.f}  
 		};
 		for (auto& color : colors) {
 			color = glm::pow(color, glm::vec3{ 2.2f });
 		}
-		for (int i = 0; i < 40; i++) {
+		for (int i = 0; i < 65; i++) {
 			auto triangle = tze::GameObject::p_createGameObj();
 			triangle->_model = model;
 			triangle->_transform_2D._scale = glm::vec2(.5f) + i * 0.025f;
@@ -60,11 +60,11 @@ public:
 	{
 	}
 
-	void makeTriangle(const std::vector<tze::Model::Vertex>& vertex, const glm::vec3& color)
+	void makeTriangle(const std::vector<tze::Model::BasicVertex>& vertex, const glm::vec3& color)
 	{
 		//  constructing the game object:
 		tze::GameObject* triangle = tze::GameObject::p_createGameObj();
-		std::vector<tze::Model::Vertex> vertices // deciding what will be the location of the triangle on the screen:
+		std::vector<tze::Model::BasicVertex> vertices // deciding what will be the location of the triangle on the screen:
 		{
 			vertex
 		};
