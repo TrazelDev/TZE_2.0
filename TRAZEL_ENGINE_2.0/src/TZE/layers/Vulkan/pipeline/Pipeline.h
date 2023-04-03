@@ -76,8 +76,14 @@ namespace tze
 		/// vk::PrimitiveTopology::eTriangleList or vk::PrimitiveTopology::eTriangleList or vk::PrimitiveTopology::eTriangleStrip </param>
 		/// <returns></returns>
 		inline vk::PipelineInputAssemblyStateCreateInfo createInputAssemblyInfo(const vk::PrimitiveTopology topology) const;
-		// inline std::vector<vk::PipelineShaderStageCreateInfo> createShaderStages() const;
 		inline std::vector<vk::PipelineShaderStageCreateInfo> createShaderStages() const;
+		inline vk::Viewport createViewport(vk::Extent2D& swapchainExtent) const;
+		inline vk::Rect2D createScissor(vk::Extent2D& swapchainExtent) const;
+		inline vk::PipelineViewportStateCreateInfo createViewportState(const std::vector<vk::Viewport>& viewports, const std::vector<vk::Rect2D>& scissors) const;
+		inline vk::PipelineRasterizationStateCreateInfo createRasterizationState() const;
+		inline vk::PipelineMultisampleStateCreateInfo createMultisamplingState() const;
+		inline vk::PipelineColorBlendStateCreateInfo createColorBlending() const;
+		inline vk::PipelineDynamicStateCreateInfo createDynamicState() const;
 
 		/// <summary>
 		/// function is getting a file name and base on the information in the file creating a vulkan shader modul

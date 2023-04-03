@@ -47,7 +47,7 @@ public:
 		for (auto& color : colors) {
 			color = glm::pow(color, glm::vec3{ 2.2f });
 		}
-		for (int i = 0; i < 65; i++) {
+		for (int i = 0; i < 20; i++) {
 			auto triangle = tze::GameObject::p_createGameObj();
 			triangle->_model = model;
 			triangle->_transform_2D._scale = glm::vec2(.5f) + i * 0.025f;
