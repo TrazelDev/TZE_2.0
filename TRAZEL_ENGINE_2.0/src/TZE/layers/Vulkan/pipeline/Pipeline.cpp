@@ -6,7 +6,10 @@ tze::Pipeline::Pipeline(const pipelineInput& input,
 	const std::string& vertexShaderPath, const std::string& fragmentShaderPath) :
 	_input(input), _vertexShaderPath(vertexShaderPath), _fragmentShaderPath(fragmentShaderPath)
 {
-	createPipeLine(_input._swapchainExtent);
+	_layout = makePipelineLayout();
+	_renderPass = makeRenderPass();
+	createPipeLine(_input._swapchainExtent, vk::PrimitiveTopology::eTriangleList);
+	createPipeLine(_input._swapchainExtent, vk::PrimitiveTopology::ePointList);
 }
 
 tze::Pipeline::~Pipeline()
@@ -20,8 +23,15 @@ void tze::Pipeline::run()
 
 void tze::Pipeline::recreatePipeline(vk::Extent2D& swapchainExtent)
 {
-	destroyPipeline();
-	createPipeLine(swapchainExtent);
+	_input._logicalDevice.waitIdle();
+	for (auto& pipeline : _graphicsPipelines)
+	{
+		_input._logicalDevice.destroyPipeline(pipeline);
+	}
+	_graphicsPipelines.pop_back();
+	_graphicsPipelines.pop_back();
+	createPipeLine(swapchainExtent, vk::PrimitiveTopology::eTriangleList);
+	createPipeLine(swapchainExtent, vk::PrimitiveTopology::ePointList);
 }
 
 vk::RenderPass& tze::Pipeline::getRenderPass()
@@ -29,9 +39,17 @@ vk::RenderPass& tze::Pipeline::getRenderPass()
 	return _renderPass;
 }
 
-vk::Pipeline& tze::Pipeline::getPipeline()
+vk::Pipeline& tze::Pipeline::getPipeline(uint32_t vertexCount)
 {
-	return _graphicsPipeline;
+	switch(vertexCount)
+	{
+	case 3:
+		return _graphicsPipelines[0];
+	case 1:
+		return _graphicsPipelines[1];
+	}
+	
+	return _graphicsPipelines[0];
 }
 
 vk::PipelineLayout& tze::Pipeline::getLayout()
@@ -39,11 +57,11 @@ vk::PipelineLayout& tze::Pipeline::getLayout()
 	return _layout;
 }
 
-void tze::Pipeline::createPipeLine(vk::Extent2D& swapchainExtent)
+void tze::Pipeline::createPipeLine(vk::Extent2D& swapchainExtent, vk::PrimitiveTopology topology)
 {
 	vk::GraphicsPipelineCreateInfo pipelineInfo = {};
 	vk::PipelineVertexInputStateCreateInfo vertexInputInfo = createVertexInputInfo();
-	vk::PipelineInputAssemblyStateCreateInfo inputAssemblyInfo = createInputAssemblyInfo(vk::PrimitiveTopology::eTriangleList); // for now displaying triangles
+	vk::PipelineInputAssemblyStateCreateInfo inputAssemblyInfo = createInputAssemblyInfo(topology); // for now displaying triangles
 	std::vector<vk::PipelineShaderStageCreateInfo> shaderStages = createShaderStages();
 	std::vector<vk::Viewport> viewports(1, createViewport(swapchainExtent));
 	std::vector<vk::Rect2D> scissors(1, createScissor(swapchainExtent));
@@ -52,9 +70,6 @@ void tze::Pipeline::createPipeLine(vk::Extent2D& swapchainExtent)
 	vk::PipelineMultisampleStateCreateInfo multisampling = createMultisamplingState();
 	vk::PipelineColorBlendStateCreateInfo colorBlending = createColorBlending();
 	vk::PipelineDynamicStateCreateInfo dynamicStateCreateInfo = createDynamicState();
-
-	_layout = makePipelineLayout();
-	_renderPass = makeRenderPass();
 
 	// putting the info inside of the pipeline creation info structure
 	pipelineInfo.flags = vk::PipelineCreateFlags();
@@ -80,7 +95,7 @@ void tze::Pipeline::createPipeLine(vk::Extent2D& swapchainExtent)
 		}
 		else
 		{
-			_graphicsPipeline = pair.value;
+			_graphicsPipelines.push_back(pair.value);
 			TZE_ENGINE_INFO("successfully created a graphics pipeline");
 		}
 	}
@@ -98,7 +113,10 @@ void tze::Pipeline::createPipeLine(vk::Extent2D& swapchainExtent)
 void tze::Pipeline::destroyPipeline()
 {
 	_input._logicalDevice.waitIdle();
-	_input._logicalDevice.destroyPipeline(_graphicsPipeline);
+	for (auto& pipeline : _graphicsPipelines)
+	{
+		_input._logicalDevice.destroyPipeline(pipeline);
+	}
 	_input._logicalDevice.destroyPipelineLayout(_layout);
 	_input._logicalDevice.destroyRenderPass(_renderPass);
 }
@@ -194,7 +212,6 @@ inline vk::PipelineViewportStateCreateInfo tze::Pipeline::createViewportState(co
 
 	return viewportState;
 }
-
 inline vk::PipelineRasterizationStateCreateInfo tze::Pipeline::createRasterizationState() const
 {
 	vk::PipelineRasterizationStateCreateInfo rasterizer = {};
@@ -226,7 +243,6 @@ inline vk::PipelineRasterizationStateCreateInfo tze::Pipeline::createRasterizati
 
 	return rasterizer;
 }
-
 inline vk::PipelineMultisampleStateCreateInfo tze::Pipeline::createMultisamplingState() const
 {
 	vk::PipelineMultisampleStateCreateInfo multisampling = {};
@@ -239,7 +255,6 @@ inline vk::PipelineMultisampleStateCreateInfo tze::Pipeline::createMultisampling
 
 	return multisampling;
 }
-
 inline vk::PipelineColorBlendStateCreateInfo tze::Pipeline::createColorBlending() const
 {
 	static vk::PipelineColorBlendAttachmentState colorBlendAttachment = {};
@@ -260,7 +275,6 @@ inline vk::PipelineColorBlendStateCreateInfo tze::Pipeline::createColorBlending(
 
 	return colorBlending;
 }
-
 inline vk::PipelineDynamicStateCreateInfo tze::Pipeline::createDynamicState() const
 {
 	static vk::DynamicState dynamicStates[] =

@@ -2,6 +2,7 @@
 #include <vector>
 #include "TZE.h"
 
+
 class ClientApp : public tze::App
 {
 public:
@@ -29,32 +30,42 @@ public:
 		// 	makeTriangle(vertices, _colors[i - 1]);
 		// }
 
+		// std::vector<tze::Model::BasicVertex> vertices{
+		// {{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+		// {{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
+		// {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}} };
+		// 
+		// auto model = std::make_shared<tze::Model>(getPhysicalDevice(), getLogicalDevice(), vertices);
+		// 
+		// // https://www.color-hex.com/color-palette/5361
+		// std::vector<glm::vec3> colors{
+		// 	{1.f, .7f, .73f},
+		// 	{1.f, .87f, .73f},
+		// 	{1.f, 1.f, .73f},
+		// 	{.73f, 1.f, .8f},
+		// 	{.73, .88f, 1.f}  
+		// };
+		// for (auto& color : colors) {
+		// 	color = glm::pow(color, glm::vec3{ 2.2f });
+		// }
+		// for (int i = 0; i < 0; i++) {
+		// 	auto triangle = tze::GameObject::p_createGameObj();
+		// 	triangle->_model = model;
+		// 	triangle->_transform_2D._scale = glm::vec2(.5f) + i * 0.025f;
+		// 	triangle->_transform_2D._rotation = i * glm::pi<float>() * .025f;
+		// 	triangle->_color = colors[i % colors.size()];
+		// 	_renderer.addGameObjects(std::move(triangle));
+		// }
+
 		std::vector<tze::Model::BasicVertex> vertices{
-		{{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-		{{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
-		{{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}} };
-
+		{{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}}};
 		auto model = std::make_shared<tze::Model>(getPhysicalDevice(), getLogicalDevice(), vertices);
-
-		// https://www.color-hex.com/color-palette/5361
-		std::vector<glm::vec3> colors{
-			{1.f, .7f, .73f},
-			{1.f, .87f, .73f},
-			{1.f, 1.f, .73f},
-			{.73f, 1.f, .8f},
-			{.73, .88f, 1.f}  
-		};
-		for (auto& color : colors) {
-			color = glm::pow(color, glm::vec3{ 2.2f });
-		}
-		for (int i = 0; i < 20; i++) {
-			auto triangle = tze::GameObject::p_createGameObj();
-			triangle->_model = model;
-			triangle->_transform_2D._scale = glm::vec2(.5f) + i * 0.025f;
-			triangle->_transform_2D._rotation = i * glm::pi<float>() * .025f;
-			triangle->_color = colors[i % colors.size()];
-			_renderer.addGameObjects(std::move(triangle));
-		}
+		auto triangle = tze::GameObject::p_createGameObj();
+		triangle->_model = model;
+		triangle->_transform_2D._scale = glm::vec2(.5f) * 0.025f;
+		triangle->_transform_2D._rotation = glm::pi<float>() * .025f;
+		triangle->_color = { 1.f, .7f, .73f };
+		_renderer.addGameObjects(std::move(triangle));
 	}
 	~ClientApp()
 	{

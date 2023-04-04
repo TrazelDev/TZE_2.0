@@ -28,7 +28,7 @@ void tze::Model::draw(const vk::CommandBuffer& commandBuffer)
 void tze::Model::createVertexBuffer(const std::vector<BasicVertex>& vertices)
 {
 	_vertexCount = uint32_t(vertices.size());
-	assert(_vertexCount >= 3 && "vertex count must be at least 3");
+	assert(_vertexCount >= 1 && "vertex count must be at least 3");
 	vk::DeviceSize bufferSize = sizeof(vertices[0]) * _vertexCount;
 	
 	createBuffer

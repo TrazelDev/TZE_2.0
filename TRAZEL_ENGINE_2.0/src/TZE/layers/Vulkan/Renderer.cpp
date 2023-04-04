@@ -127,7 +127,7 @@ void tze::Renderer::recordDrawCommands(const vk::CommandBuffer& commandBuffer, u
 	commandBuffer.setScissor(0, 1, &scissor);
 
 
-	commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, _input._pipeline.getPipeline());
+	commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, _input._pipeline.getPipeline(1));
 	renderGameObj(commandBuffer);
 	commandBuffer.endRenderPass();
 
@@ -147,7 +147,7 @@ void tze::Renderer::renderGameObj(const vk::CommandBuffer& commandBuffer)
 	for (auto& obj : _gameObjects) {
 		i += 1;
 		// obj->_transform_2D._rotation = glm::mod<float>(obj->_transform_2D._rotation + 0.001f * i, 2.f * glm::pi<float>());
-		obj->_transform_2D._rotation = glm::mod<float>(obj->_transform_2D._rotation + 0.00003f * i, 2.f * glm::pi<float>());
+		//obj->_transform_2D._rotation = glm::mod<float>(obj->_transform_2D._rotation + 0.00003f * i, 2.f * glm::pi<float>());
 	}
 
 	for (GameObject* gameObject : _gameObjects)

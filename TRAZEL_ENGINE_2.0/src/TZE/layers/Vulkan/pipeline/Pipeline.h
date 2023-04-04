@@ -3,7 +3,10 @@
 #include "layers/Vulkan/vk_logging/vkLogging.h"
 
 
-
+enum flagsss
+{
+	points
+};
 
 namespace tze
 {
@@ -12,7 +15,7 @@ namespace tze
 		vk::Device& _logicalDevice;
 		vk::Format& _swapchainImageFormat;
 		vk::Extent2D& _swapchainExtent;
-
+		
 		pipelineInput(vk::Device& logicalDevice, vk::Format& swapchainImageFormat, vk::Extent2D& swapchainExtent) :
 			_logicalDevice(logicalDevice), _swapchainImageFormat(swapchainImageFormat), _swapchainExtent(swapchainExtent) {}
 	};
@@ -42,14 +45,14 @@ namespace tze
 		void recreatePipeline(vk::Extent2D& swapchainExtent);
 
 		vk::RenderPass& getRenderPass();
-		vk::Pipeline& getPipeline();
+		vk::Pipeline& getPipeline(uint32_t vertexCount = 3);
 		vk::PipelineLayout& getLayout();
 	private:
 		/// <summary>
 		/// this function is in charge of creating the pipeline it is basically creating all of the class almost
 		/// </summary>
 		/// <param name="swapchainExtent"></param>
-		void createPipeLine(vk::Extent2D& swapchainExtent);
+		void createPipeLine(vk::Extent2D& swapchainExtent, vk::PrimitiveTopology topology);
 		void destroyPipeline(); // destroying almost evreything in the class
 
 		inline vk::PipelineVertexInputStateCreateInfo createVertexInputInfo() const;
@@ -116,6 +119,6 @@ namespace tze
 		// pipeline related:
 		vk::PipelineLayout _layout;
 		vk::RenderPass _renderPass;
-		vk::Pipeline _graphicsPipeline;
+		std::vector<vk::Pipeline> _graphicsPipelines;
 	};
 }
