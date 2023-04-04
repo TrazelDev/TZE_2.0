@@ -1,7 +1,9 @@
 #include "pch.h"
 #include "Renderer.h"
 
-tze::Renderer::Renderer(const RendererInput& input) : _input(input)
+tze::Renderer::Renderer(const RendererInput& input) : _input(input), 
+	_pipeline(*new pipelineInput(_input._logicalDevice, _input._swapchain.getFormat(), _input._swapchain.getExtent())),
+	_commands(*new CommandsInput(_input._logicalDevice, _input._indices, _pipeline, _input._swapchain))
 {
 	_graphicsQueue = _input._logicalDevice.getQueue(_input._indices.graphicsIndex.value(), 0);
 	_presentQueue = _input._logicalDevice.getQueue(_input._indices.presentIndex.value(), 0);
@@ -101,7 +103,7 @@ void tze::Renderer::recordDrawCommands(const vk::CommandBuffer& commandBuffer, u
 	}
 	
 	vk::RenderPassBeginInfo renderpassInfo = {};
-	renderpassInfo.renderPass = _input._pipeline.getRenderPass();
+	renderpassInfo.renderPass = _pipeline.getRenderPass();
 	renderpassInfo.framebuffer = _input._swapchain.getFrames()[imageIndex].frameBuffer;
 	renderpassInfo.renderArea.offset.x = 0;
 	renderpassInfo.renderArea.offset.y = 0;
@@ -127,7 +129,7 @@ void tze::Renderer::recordDrawCommands(const vk::CommandBuffer& commandBuffer, u
 	commandBuffer.setScissor(0, 1, &scissor);
 
 
-	commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, _input._pipeline.getPipeline(1));
+	commandBuffer.bindPipeline(vk::PipelineBindPoint::eGraphics, _pipeline.getPipeline(1));
 	renderGameObj(commandBuffer);
 	commandBuffer.endRenderPass();
 
@@ -159,7 +161,7 @@ void tze::Renderer::renderGameObj(const vk::CommandBuffer& commandBuffer)
 		push.color = gameObject->_color;
 		push.transform = gameObject->_transform_2D.mat2();
 
-		commandBuffer.pushConstants(_input._pipeline.getLayout(), vk::ShaderStageFlagBits::eVertex |
+		commandBuffer.pushConstants(_pipeline.getLayout(), vk::ShaderStageFlagBits::eVertex |
 			vk::ShaderStageFlagBits::eFragment, 0, sizeof(SimplePushConstantData), &push);
 
 		gameObject->_model->bind(commandBuffer);
@@ -178,7 +180,7 @@ void tze::Renderer::recreationOfWindowSize()
 	}
 	
 	_input._swapchain.recreateSwapChain(*_input._window.getWidth(), *_input._window.getHeight());
-	_input._pipeline.recreatePipeline(_input._swapchain.getExtent());
-	_input._commands.recreateBuffers();
+	_pipeline.recreatePipeline(_input._swapchain.getExtent());
+	_commands.recreateBuffers();
 	_input._window.resetWindowResizedFlag();
 }

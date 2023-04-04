@@ -43,8 +43,6 @@ namespace tze
 		// vulkan:
 		Instance  _instance;
 		Swapchain _swapchain;
-		Pipeline  _pipeline;
-		Commands  _commands;
 		Renderer  _renderer;
 	};
 

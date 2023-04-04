@@ -1,7 +1,12 @@
 #pragma once
 #include "pch.h"
+#include "layers/Vulkan/pipeline/Pipeline.h"
+
+
 namespace tze
 {
+	typedef PipelineConfig ModelProprties;
+
 	class TZE_API Model
 	{
 	public:
@@ -23,7 +28,14 @@ namespace tze
 			static std::vector<vk::VertexInputAttributeDescription> getAttributeDescriptions();
 		};
 
-		Model(vk::PhysicalDevice& physicalDevice, vk::Device& device, std::vector<BasicVertex>& vertices);
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="physicalDevice">the physical device of the class</param>
+		/// <param name="device">the logical device of the class</param>
+		/// <param name="vertices"></param>
+		/// <param name="pipelineProperties">the struct ModelProprties with the unique properties of the model</param>
+		Model(vk::PhysicalDevice& physicalDevice, vk::Device& device, std::vector<BasicVertex>& vertices, ModelProprties* pipelineProperties);
 		~Model();
 		Model(const Model&) = delete;
 		Model& operator=(const Model&) = delete;
@@ -59,5 +71,6 @@ namespace tze
 		vk::Buffer _vertexBuffer;
 		vk::DeviceMemory _vertexBufferMemory;
 		uint32_t _vertexCount;
+		static std::map<ModelProprties*, bool> _pipelinesProperties; // the first one is the properties of the model, the second is if pipeline with this properties has already been created
 	};
 }

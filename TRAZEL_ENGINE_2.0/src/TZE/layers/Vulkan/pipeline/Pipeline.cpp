@@ -15,6 +15,8 @@ tze::Pipeline::Pipeline(const pipelineInput& input,
 tze::Pipeline::~Pipeline()
 {
 	destroyPipeline();
+	PipelineConfig a;
+	
 }
 
 void tze::Pipeline::run()

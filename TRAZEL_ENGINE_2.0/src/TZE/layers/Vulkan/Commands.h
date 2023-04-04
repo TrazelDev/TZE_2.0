@@ -7,15 +7,12 @@ namespace tze
 	struct CommandsInput
 	{
 		vk::Device& _logicalDevice;
-		vk::PhysicalDevice& _physicalDevice;
-		vk::SurfaceKHR& _surface;
 		Pipeline& _pipeline;
 		QueueFamilies& _queueFamilies;
 		Swapchain& _swapchain;
 
-		CommandsInput(vk::Device& logicalDevice, vk::PhysicalDevice& physicalDevice, vk::SurfaceKHR& surface, 
-			QueueFamilies& queueFamilies, Pipeline& pipeline, Swapchain& swapchain) :
-			_logicalDevice(logicalDevice), _physicalDevice(physicalDevice), _surface(surface), _pipeline(pipeline),
+		CommandsInput(vk::Device& logicalDevice, QueueFamilies& queueFamilies, Pipeline& pipeline, Swapchain& swapchain) :
+			_logicalDevice(logicalDevice), _pipeline(pipeline),
 			_swapchain(swapchain), _queueFamilies(queueFamilies) { }
 	};
 

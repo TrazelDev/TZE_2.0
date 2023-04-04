@@ -17,5 +17,5 @@ void main()
 	gl_Position = vec4(push.transform * positions + push.offset, 0.0, 1.0);
 	//fragColor = color;
 
-	gl_PointSize = 1.0;
+	gl_PointSize = 5.0;
 }

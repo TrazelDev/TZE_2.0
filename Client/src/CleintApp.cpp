@@ -2,7 +2,6 @@
 #include <vector>
 #include "TZE.h"
 
-
 class ClientApp : public tze::App
 {
 public:
@@ -59,7 +58,9 @@ public:
 
 		std::vector<tze::Model::BasicVertex> vertices{
 		{{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}}};
-		auto model = std::make_shared<tze::Model>(getPhysicalDevice(), getLogicalDevice(), vertices);
+		tze::ModelProprties* pipelineProperties = new tze::ModelProprties();
+		pipelineProperties->topology = tze::ModelProprties::points;
+		auto model = std::make_shared<tze::Model>(getPhysicalDevice(), getLogicalDevice(), vertices, pipelineProperties);
 		auto triangle = tze::GameObject::p_createGameObj();
 		triangle->_model = model;
 		triangle->_transform_2D._scale = glm::vec2(.5f) * 0.025f;
@@ -74,18 +75,18 @@ public:
 	void makeTriangle(const std::vector<tze::Model::BasicVertex>& vertex, const glm::vec3& color)
 	{
 		//  constructing the game object:
-		tze::GameObject* triangle = tze::GameObject::p_createGameObj();
-		std::vector<tze::Model::BasicVertex> vertices // deciding what will be the location of the triangle on the screen:
-		{
-			vertex
-		};
-		
-		std::shared_ptr<tze::Model> model = std::make_shared<tze::Model>(getPhysicalDevice(), getLogicalDevice(), vertices);
-		triangle->_model = model;
-		triangle->_color = color;
-		triangle->_transform_2D = tze::Transform_2DComponent();
-		triangle->_transform_2D._spin = true;
-		_renderer.addGameObjects(triangle);
+		// tze::GameObject* triangle = tze::GameObject::p_createGameObj();
+		// std::vector<tze::Model::BasicVertex> vertices // deciding what will be the location of the triangle on the screen:
+		// {
+		// 	vertex
+		// };
+		// 
+		// std::shared_ptr<tze::Model> model = std::make_shared<tze::Model>(getPhysicalDevice(), getLogicalDevice(), vertices);
+		// triangle->_model = model;
+		// triangle->_color = color;
+		// triangle->_transform_2D = tze::Transform_2DComponent();
+		// triangle->_transform_2D._spin = true;
+		// _renderer.addGameObjects(triangle);
 	}
 };
 

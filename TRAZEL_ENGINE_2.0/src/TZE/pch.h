@@ -18,6 +18,7 @@
 #include <optional>
 #include <set>
 #include <fstream>
+#include <map>
 
 // Logging libraries:
 #include <spdlog.h>

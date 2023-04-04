@@ -1,10 +1,13 @@
 #include "pch.h"
 #include "Model.h"
 
-tze::Model::Model(vk::PhysicalDevice& physicalDevice, vk::Device& logicalDevice, std::vector<BasicVertex>& vertices) 
+std::map<tze::PipelineConfig*, bool> tze::Model::_pipelinesProperties = {};
+
+tze::Model::Model(vk::PhysicalDevice& physicalDevice, vk::Device& logicalDevice, std::vector<BasicVertex>& vertices, ModelProprties* pipelineProperties)
 	: _physicalDevice(physicalDevice), _logicalDevice(logicalDevice)
 {
 	createVertexBuffer(vertices);
+	_pipelinesProperties.insert(std::pair<ModelProprties*, bool>(pipelineProperties, false));
 }
 
 tze::Model::~Model()

@@ -3,10 +3,7 @@
 #include "layers/Vulkan/vk_logging/vkLogging.h"
 
 
-enum flagsss
-{
-	points
-};
+
 
 namespace tze
 {
@@ -29,6 +26,24 @@ namespace tze
 		glm::vec2 offset;
 		alignas(16) glm::vec3 color;
 	};
+
+	struct PipelineConfig
+	{
+		enum Topology
+		{
+			triangles = vk::PrimitiveTopology::eTriangleList,
+			points = vk::PrimitiveTopology::ePointList
+		};
+		Topology topology;
+		
+
+		bool operator==(PipelineConfig* other)
+		{
+			return (this == other);
+		}
+	};
+
+
 
 	class Pipeline : public Layer
 	{

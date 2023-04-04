@@ -12,25 +12,19 @@ namespace tze
 		vk::Device& _logicalDevice;
 		QueueFamilies& _indices;
 		Window& _window;
-		Pipeline& _pipeline;
 		Swapchain& _swapchain;
-		Commands& _commands;
 
 		RendererInput(
 			vk::Device& logicalDevice,
 			QueueFamilies& indices,
 			Window& window,
-			Swapchain& swapchain,
-			Pipeline& pipeline,
-			Commands& commands
-		) 
+			Swapchain& swapchain
+		)
 			:
 			_logicalDevice(logicalDevice),
 			_swapchain(swapchain),
-			_pipeline(pipeline),
 			_window(window),
-			_indices(indices),
-			_commands(commands)
+			_indices(indices)
 		{ }
 	};
 
@@ -52,6 +46,8 @@ namespace tze
 		void recreationOfWindowSize();
 
 		const RendererInput& _input;
+		Pipeline  _pipeline;
+		Commands  _commands;
 		std::vector<GameObject*> _gameObjects;
 		vk::Queue _graphicsQueue;
 		vk::Queue _presentQueue;
